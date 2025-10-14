@@ -91,15 +91,15 @@ export default function App() {
               </>
             }
           />
-
+         </Routes>
+         <Routes>
           {/* 🆕 Free Fire Home Page */}
           <Route path="/freefire" element={<FreeFirePage />} />
-
+          </Routes>
           {/* 🟩 ID Buy Page */}
           <Route path="/buy" element={<AccountsPage />} />
            </Routes>
-        
-
+      
            <Routes>
            <Route path="/" element={<FreeFirePage />} />
             <Route path="/sell" element={<SellPage />} />   {/* ✅ Sell Page */}
@@ -110,6 +110,7 @@ export default function App() {
     </Router>
   );
 }
+
 
 
 
