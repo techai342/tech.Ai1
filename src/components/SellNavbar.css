@@ -1,0 +1,19 @@
+.sell-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: moveText 15s linear infinite;
+}
+
+@keyframes moveText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.sell-text {
+  display: inline-block;
+  padding-right: 100%; /* gives gap after text ends */
+}
