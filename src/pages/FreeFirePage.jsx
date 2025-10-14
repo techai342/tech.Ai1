@@ -23,7 +23,7 @@ export default function FreeFirePage() {
   return (
     <div className="text-white font-[Poppins]">
       {/* 🧭 Navbar */}
-      <Navbar />
+      <FreeFireNavbar />
 
       {/* 🟠 Hero Section */}
       <Element name="home">
