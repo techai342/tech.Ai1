@@ -16,8 +16,7 @@ export default function SellPage() {
   const [price, setPrice] = useState("");
   const [details, setDetails] = useState("");
 
-  // 🟢 Apna WhatsApp number yahan likho (country code ke sath)
-  const whatsappNumber = "923478936242"; // 👈 apna number daalo
+  const whatsappNumber = "923478936242";
 
   const handleSubmit = () => {
     if (!fullName || !level || !rank || !price || !details) {
@@ -25,7 +24,6 @@ export default function SellPage() {
       return;
     }
 
-    // 🧾 WhatsApp message
     const message = `🟡 *Free Fire Account Sell Request* 🟡\n
 👤 Name: ${fullName}
 👉 Level: ${level}
@@ -46,7 +44,8 @@ export default function SellPage() {
 
       {/* 📝 Sell Form Section */}
       <section
-        className="min-h-screen flex items-center justify-center bg-cover bg-center relative px-4"
+        className="min-h-screen flex items-center justify-center bg-cover bg-center relative px-4 pt-24" 
+        // 🟡 Added pt-24 for top spacing so form won't hide under navbar
         style={{ backgroundImage: `url(${freefireBg})` }}
       >
         {/* Overlay */}
