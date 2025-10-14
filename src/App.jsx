@@ -91,11 +91,11 @@ export default function App() {
               </>
             }
           />
-         </Routes>
-         <Routes>
+
+          
           {/* 🆕 Free Fire Home Page */}
           <Route path="/freefire" element={<FreeFirePage />} />
-          </Routes>
+          
           {/* 🟩 ID Buy Page */}
           <Route path="/buy" element={<AccountsPage />} />
            </Routes>
@@ -110,6 +110,7 @@ export default function App() {
     </Router>
   );
 }
+
 
 
 
