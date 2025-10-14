@@ -101,7 +101,16 @@ export default function FreeFirePage() {
           </div>
         </section>
       </Element>
-
+      
+   {/* 📝 Policies Section */}
+      <Element name="policies">
+        <section className="py-16 px-4 bg-black/70">
+          <div className="max-w-7xl mx-auto">
+            <Policies />
+          </div>
+        </section>
+      </Element>
+      
       {/* 🧾 About Section */}
       <Element name="about">
         <section className="py-16 px-4 bg-black/70">
@@ -116,15 +125,6 @@ export default function FreeFirePage() {
         <section className="py-16 px-4 bg-black/80">
           <div className="max-w-7xl mx-auto">
             <TeamSection />
-          </div>
-        </section>
-      </Element>
-
-      {/* 📝 Policies Section */}
-      <Element name="policies">
-        <section className="py-16 px-4 bg-black/70">
-          <div className="max-w-7xl mx-auto">
-            <Policies />
           </div>
         </section>
       </Element>
