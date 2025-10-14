@@ -22,7 +22,7 @@ import freefireCharacter from "/freefire-character.png";
 export default function FreeFirePage() {
   return (
     <div className="text-white font-[Poppins]">
-      {/* 🟡 Navbar */}
+      {/* 🧭 Navbar */}
       <FreeFireNavbar />
 
       {/* 🟠 Hero Section */}
@@ -35,26 +35,30 @@ export default function FreeFirePage() {
             backgroundPosition: "center",
           }}
         >
+          {/* 🔸 Single clean overlay (no double blur now) */}
           <div className="absolute inset-0 bg-black/50"></div>
 
+          {/* 🔥 Logo */}
           <motion.img
             src={freefireLogo}
             alt="Free Fire Logo"
             initial={{ x: -200, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1 }}
-            className="absolute top-10 left-6 w-48 sm:w-64"
+            className="absolute top-8 left-4 w-36 sm:w-48 md:w-56"
           />
 
+          {/* 🧍 Character */}
           <motion.img
             src={freefireCharacter}
             alt="Free Fire Character"
             initial={{ x: 200, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1 }}
-            className="absolute bottom-0 right-0 w-[300px] sm:w-[400px] lg:w-[500px]"
+            className="absolute bottom-0 right-0 w-[220px] sm:w-[350px] lg:w-[480px]"
           />
 
+          {/* ✨ Text + Buttons */}
           <div className="relative z-10 px-4 max-w-2xl mt-20">
             <TypeAnimation
               sequence={[
@@ -68,10 +72,10 @@ export default function FreeFirePage() {
               wrapper="h1"
               cursor={true}
               repeat={Infinity}
-              className="text-3xl sm:text-5xl font-bold mb-8 drop-shadow-lg"
+              className="text-2xl sm:text-4xl md:text-5xl font-bold mb-8 drop-shadow-lg"
             />
 
-            <div className="flex flex-wrap justify-center gap-4 mt-6">
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-6">
               {[
                 { label: "ID Buy", to: "/buy", gradient: "from-blue-500 to-purple-600" },
                 { label: "ID Sell", to: "/sell", gradient: "from-green-500 to-emerald-600" },
@@ -83,10 +87,11 @@ export default function FreeFirePage() {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5, delay: i * 0.2 }}
+                  className="w-full sm:w-auto"
                 >
                   <Link
                     to={btn.to}
-                    className={`px-6 py-3 rounded-lg bg-gradient-to-r ${btn.gradient} shadow-lg hover:scale-110 transition-transform font-semibold`}
+                    className={`block w-full sm:w-auto text-center px-6 py-3 rounded-lg bg-gradient-to-r ${btn.gradient} shadow-lg hover:scale-105 transition-transform font-semibold`}
                   >
                     {btn.label}
                   </Link>
@@ -99,8 +104,8 @@ export default function FreeFirePage() {
 
       {/* 🧾 About Section */}
       <Element name="about">
-        <section className="py-20 bg-black/70">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-16 px-4 bg-black/70">
+          <div className="max-w-7xl mx-auto">
             <About />
           </div>
         </section>
@@ -108,8 +113,8 @@ export default function FreeFirePage() {
 
       {/* 🧑 Team Section */}
       <Element name="team">
-        <section className="py-20 bg-black/80">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-16 px-4 bg-black/80">
+          <div className="max-w-7xl mx-auto">
             <TeamSection />
           </div>
         </section>
@@ -117,8 +122,8 @@ export default function FreeFirePage() {
 
       {/* 📝 Policies Section */}
       <Element name="policies">
-        <section className="py-20 bg-black/70">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-16 px-4 bg-black/70">
+          <div className="max-w-7xl mx-auto">
             <Policies />
           </div>
         </section>
@@ -126,8 +131,8 @@ export default function FreeFirePage() {
 
       {/* 🌟 Reviews Section */}
       <Element name="reviews">
-        <section className="py-20 bg-black/80">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-16 px-4 bg-black/80">
+          <div className="max-w-7xl mx-auto">
             <CustomerReviews />
           </div>
         </section>
@@ -135,8 +140,8 @@ export default function FreeFirePage() {
 
       {/* 📞 Contact Section */}
       <Element name="contact">
-        <section className="py-20 bg-black/70">
-          <div className="max-w-7xl mx-auto px-4">
+        <section className="py-16 px-4 bg-black/70">
+          <div className="max-w-7xl mx-auto">
             <Contact />
           </div>
         </section>
