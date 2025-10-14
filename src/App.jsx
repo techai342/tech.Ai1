@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import FreeFireNavbar from "./components/FreeFireNavbar";   // 👈 Import your FreeFire Navbar
+import FreeFireNavbar from "./components/FreeFireNavbar";  // ✅ Import FreeFireNavbar
 
 import HeroSection from "./components/HeroSection";
 import Features from "./components/Features";
@@ -23,10 +23,8 @@ import SellPage from "./pages/SellPage";
 function Layout() {
   const location = useLocation();
 
-  // 🧠 Check which page is currently active
-  const isFreeFirePage = location.pathname.startsWith("/freefire") 
-                      || location.pathname.startsWith("/Accountpage") 
-                      || location.pathname.startsWith("/sell");
+  // ✅ Show FreeFireNavbar only on /freefire
+  const isFreeFirePage = location.pathname === "/freefire";
 
   return (
     <div className="min-h-screen overflow-x-hidden relative font-[Poppins] text-white scroll-smooth">
@@ -35,12 +33,12 @@ function Layout() {
         <ThemeManager />
       </div>
 
-      {/* ✅ Conditional Navbar */}
+      {/* ✅ Navbar Handling */}
       {isFreeFirePage ? <FreeFireNavbar /> : <Navbar />}
 
       {/* Routes */}
       <Routes>
-        {/* Home Page */}
+        {/* 🏠 Home Page */}
         <Route
           path="/"
           element={
@@ -102,13 +100,13 @@ function Layout() {
           }
         />
 
-        {/* Free Fire Page */}
+        {/* 🆓 Free Fire Page */}
         <Route path="/freefire" element={<FreeFirePage />} />
 
-        {/* Buy Page */}
+        {/* 🟩 ID Buy Page → uses its OWN navbar (no change) */}
         <Route path="/buy" element={<AccountsPage />} />
 
-        {/* Sell Page */}
+        {/* 🟥 Sell Page → uses default Navbar */}
         <Route path="/sell" element={<SellPage />} />
       </Routes>
 
