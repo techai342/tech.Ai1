@@ -1,54 +1,29 @@
-/* 🌟 Smooth right-to-left scrolling animation */
-@keyframes sellMarquee {
+.sell-marquee {
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 120%; /* ✅ Increased width by 20% */
+}
+
+.sell-text {
+  display: inline-block;
+  min-width: 100%;
+  padding-right: 2rem;
+  text-shadow: 0 0 8px #fff, 0 0 15px #00ff88;
+  animation: scroll-loop 10s linear infinite;
+}
+
+.sell-text:hover {
+  text-shadow: 0 0 10px #ffffff, 0 0 25px #00ffaa, 0 0 40px #00ffaa;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+@keyframes scroll-loop {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   100% {
     transform: translateX(-100%);
-  }
-}
-
-/* 🚀 Animation wrapper */
-.sell-marquee {
-  display: inline-block;
-  white-space: nowrap;
-  animation: sellMarquee 15s linear infinite;
-  will-change: transform;
-  min-width: 150%; /* 🧠 Makes the banner wider than the screen */
-}
-
-/* ✨ Text styling with glow & hover effects */
-.sell-text {
-  display: inline-block;
-  white-space: nowrap;
-  padding-left: 100%;
-  font-weight: 700;
-  font-size: 1.25rem; /* text-lg */
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #fff;
-  text-shadow: 
-    0 0 8px #ffffff,
-    0 0 12px #00ffb3,
-    0 0 20px #00ffb3,
-    0 0 30px #00ffb3;
-  transition: transform 0.3s ease, text-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-/* ✨ Hover Effect */
-.sell-text:hover {
-  transform: scale(1.1);
-  text-shadow: 
-    0 0 12px #ffffff,
-    0 0 18px #00ffc6,
-    0 0 25px #00ffc6,
-    0 0 40px #00ffc6;
-}
-
-/* 📱 Responsive for small screens */
-@media (max-width: 640px) {
-  .sell-text {
-    font-size: 1rem;
   }
 }
