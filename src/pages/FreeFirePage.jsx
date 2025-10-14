@@ -5,7 +5,7 @@ import { Element } from "react-scroll";
 import "./FreeFirePage.css";
 
 // 🧭 Navbar
-import FreeFireNavbar from "../components/FreeFireNavbar";
+import FreeFireNavbar from "../components/Navbar";
 
 // 🧩 Sections
 import About from "../components/About";
@@ -23,7 +23,7 @@ export default function FreeFirePage() {
   return (
     <div className="text-white font-[Poppins]">
       {/* 🧭 Navbar */}
-      <FreeFireNavbar />
+      <Navbar />
 
       {/* 🟠 Hero Section */}
       <Element name="home">
