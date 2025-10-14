@@ -4,8 +4,8 @@ import { TypeAnimation } from "react-type-animation";
 import { Element } from "react-scroll";
 import "./FreeFirePage.css";
 
-// 🧭 Navbar
-import Navbar from "../components/Navbar";
+// 🧭 ✅ Use FreeFireNavbar instead of main Navbar
+import FreeFireNavbar from "../components/FreeFireNavbar";
 
 // 🧩 Sections
 import About from "../components/About";
@@ -22,8 +22,8 @@ import freefireCharacter from "/freefire-character.png";
 export default function FreeFirePage() {
   return (
     <div className="text-white font-[Poppins]">
-      {/* 🧭 Navbar */}
-      <Navbar />
+      {/* 🧭 ✅ FreeFire Navbar */}
+      <FreeFireNavbar />
 
       {/* 🟠 Hero Section */}
       <Element name="home">
@@ -35,7 +35,7 @@ export default function FreeFirePage() {
             backgroundPosition: "center",
           }}
         >
-          {/* 🔸 Single clean overlay (no double blur now) */}
+          {/* 🔸 Overlay */}
           <div className="absolute inset-0 bg-black/50"></div>
 
           {/* 🔥 Logo */}
