@@ -18,6 +18,7 @@ import AccountsPage from "./accounts/AccountsPage";
 // 🆕 Free Fire Page
 import FreeFirePage from "./pages/FreeFirePage";
 
+import SellPage from "./pages/SellPage";
 export default function App() {
   return (
     <Router>
@@ -97,11 +98,19 @@ export default function App() {
           {/* 🟩 ID Buy Page */}
           <Route path="/buy" element={<AccountsPage />} />
            </Routes>
+        
+
+           <Routes>
+           <Route path="/" element={<FreeFirePage />} />
+            <Route path="/sell" element={<SellPage />} />   {/* ✅ Sell Page */}
+            </Routes>
+
         <Footer />
       </div>
     </Router>
   );
 }
+
 
 
 
