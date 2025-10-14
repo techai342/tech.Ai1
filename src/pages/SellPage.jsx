@@ -11,7 +11,7 @@ export default function SellPage() {
   const [details, setDetails] = useState("");
 
   // 🟢 Apna WhatsApp number yahan likho (country code ke sath)
-  const whatsappNumber = "923001234567"; // 👈 apna number daalo
+  const whatsappNumber = "923478936242"; // 👈 apna number daalo
 
   const handleSubmit = () => {
     if (!fullName || !level || !rank || !price || !details) {
