@@ -10,11 +10,11 @@ export default function Policies() {
         📜 Our Policies
       </h2>
       <ul className="list-disc list-inside space-y-2 text-sm leading-relaxed">
-        <li>✅ Once the ID is sold, it cannot be returned or exchanged.</li>
-        <li>🔒 Full account information will be provided after payment.</li>
-        <li>🛡 We do not sell hacked or banned IDs.</li>
-        <li>⚡ If you face any issues within 24 hours, contact our support.</li>
-        <li>📢 Serious buyers only — no refunds for change of mind.</li>
+        <li>✅ Only serious buyers are entertained — time-wasters will not be entertained.</li>
+        <li>💳 Full payment must be completed before receiving any account details. All transactions are 100% secure.</li>
+        <li>🆔 To sell your ID, you must provide a clear video, link, binding details, and your expected price.</li>
+        <li>🤝 Once the buyer approves the ID, the seller must transfer it first. Payment is released after verification.</li>
+        <li>⏳ Any issue must be reported within 7 days of the transaction. After this period, we are not responsible for disputes.</li>
       </ul>
     </section>
   );
