@@ -13,12 +13,11 @@ import About from "./components/About";
 import TeamSection from "./components/TeamSection";
 import CustomerReviews from "./components/CustomerReviews";
 import FAQSection from "./components/FAQSection";
+
 import AccountsPage from "./accounts/AccountsPage";
-
-// 🆕 Free Fire Page
 import FreeFirePage from "./pages/FreeFirePage";
-
 import SellPage from "./pages/SellPage";
+
 export default function App() {
   return (
     <Router>
@@ -31,6 +30,7 @@ export default function App() {
         <Navbar />
 
         <Routes>
+          {/* 🏠 Home Page */}
           <Route
             path="/"
             element={
@@ -92,27 +92,18 @@ export default function App() {
             }
           />
 
-          
-          {/* 🆕 Free Fire Home Page */}
+          {/* 🆕 Free Fire Page */}
           <Route path="/freefire" element={<FreeFirePage />} />
-          
+
           {/* 🟩 ID Buy Page */}
           <Route path="/buy" element={<AccountsPage />} />
-           </Routes>
-      
-           <Routes>
-           <Route path="/" element={<FreeFirePage />} />
-            <Route path="/sell" element={<SellPage />} />   {/* ✅ Sell Page */}
-            </Routes>
+
+          {/* 🟥 ID Sell Page */}
+          <Route path="/sell" element={<SellPage />} />
+        </Routes>
 
         <Footer />
       </div>
     </Router>
   );
 }
-
-
-
-
-
-
