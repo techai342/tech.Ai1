@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { TypeAnimation } from "react-type-animation";  // ✅ FIXED: Import added
+import { TypeAnimation } from "react-type-animation";
 import "./FreeFirePage.css";
 
 import freefireBg from "/freefire-background.jpg";
 import freefireLogo from "/freefire-logo.png";
 import freefireCharacter from "/freefire-character.png";
+
+// 🟠 Import your new navbar
+import FreeFireNavbar from "../components/FreeFireNavbar";
 
 export default function FreeFirePage() {
   return (
@@ -18,6 +21,9 @@ export default function FreeFirePage() {
         backgroundPosition: "center",
       }}
     >
+      {/* 🟡 Free Fire Navbar at top */}
+      <FreeFireNavbar />
+
       {/* 🔸 Overlay for blur and dark background */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
 
@@ -42,7 +48,7 @@ export default function FreeFirePage() {
       />
 
       {/* ✨ Text Animation */}
-      <div className="relative z-10 px-4 max-w-2xl">
+      <div className="relative z-10 px-4 max-w-2xl mt-20">
         <TypeAnimation
           sequence={[
             "🔥 Welcome to Free Fire Hub",
