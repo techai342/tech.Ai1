@@ -4,31 +4,30 @@ import { Link } from "react-router-dom";
 import freefireBg from "/freefire-background.jpg";
 
 export default function SellPage() {
+  const [fullName, setFullName] = useState(""); // 🆕 User Name
   const [level, setLevel] = useState("");
   const [rank, setRank] = useState("");
   const [price, setPrice] = useState("");
   const [details, setDetails] = useState("");
 
   // 🟢 Apna WhatsApp number yahan likho (country code ke sath)
-  const whatsappNumber = "923478936242"; // 👈 yahan apna number daalna hai
+  const whatsappNumber = "923001234567"; // 👈 apna number daalo
 
   const handleSubmit = () => {
-    if (!level || !rank || !price || !details) {
+    if (!fullName || !level || !rank || !price || !details) {
       alert("⚠️ Please fill all fields before sending!");
       return;
     }
 
-    // 🧾 Message jo WhatsApp par bhejna hai
+    // 🧾 WhatsApp message
     const message = `🟡 *Free Fire Account Sell Request* 🟡\n
+👤 Name: ${fullName}
 👉 Level: ${level}
 🏆 Rank: ${rank}
 💰 Price: ${price} PKR
 📝 Details: ${details}`;
 
-    // 📲 WhatsApp URL create
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
-    // 🔁 Redirect to WhatsApp
     window.open(url, "_blank");
   };
 
@@ -49,6 +48,18 @@ export default function SellPage() {
         <h1 className="text-2xl font-bold mb-6 text-center">
           🛒 Sell Your Free Fire Account
         </h1>
+
+        {/* 🆕 Full Name */}
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">👤 Full Name</label>
+          <input
+            type="text"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="Enter your name"
+            className="w-full p-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-gray-300 outline-none focus:ring-2 focus:ring-orange-400"
+          />
+        </div>
 
         {/* Level */}
         <div className="mb-4">
@@ -105,7 +116,7 @@ export default function SellPage() {
           onClick={handleSubmit}
           className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg font-semibold text-lg shadow-lg hover:shadow-green-500/50 transition-all"
         >
-          📲 Send on WhatsApp
+          📲 Submit the Details
         </motion.button>
 
         {/* Back Button */}
