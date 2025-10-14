@@ -5,7 +5,7 @@ import { Element } from "react-scroll";
 import "./FreeFirePage.css";
 
 // 🧭 Navbar
-import FreeFireNavbar from "../components/Navbar";
+import Navbar from "../components/Navbar";
 
 // 🧩 Sections
 import About from "../components/About";
