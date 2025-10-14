@@ -1,0 +1,158 @@
+/* 🌟 Free Fire Page Styles */
+
+/* Smooth fade-in animation for whole page */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Logo Animation - slide from left */
+@keyframes slideLeft {
+  0% { opacity: 0; transform: translateX(-200px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Character Animation - slide from right */
+@keyframes slideRight {
+  0% { opacity: 0; transform: translateX(200px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Button Zoom-in */
+@keyframes zoomIn {
+  0% { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* 🪄 Text Typing Effect (extra visual polish) */
+.typewriter {
+  overflow: hidden;
+  border-right: 2px solid #fff;
+  white-space: nowrap;
+  animation: typing 3s steps(30, end), blink 0.75s step-end infinite;
+  font-weight: bold;
+  text-shadow: 0 0 10px #ffffffaa;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent; }
+  50% { border-color: white; }
+}
+
+/* ✨ Page Container */
+.freefire-page {
+  position: relative;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* 🔥 Dark Overlay */
+.freefire-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+/* 🪄 Logo Image */
+.freefire-logo {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  width: 180px;
+  animation: slideLeft 1s ease forwards;
+}
+
+/* 🧍 Character Image */
+.freefire-character {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  max-width: 45%;
+  animation: slideRight 1s ease forwards;
+}
+
+/* ✍️ Typewriter Text Container */
+.freefire-text {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 600px;
+  padding: 0 1rem;
+  font-size: 2rem;
+  color: #fff;
+}
+
+/* 🟩 Buttons Container */
+.freefire-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.freefire-buttons a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  background: linear-gradient(90deg, #ff8a00, #e52e71);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: zoomIn 0.6s ease forwards;
+}
+
+.freefire-buttons a:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .freefire-logo {
+    width: 140px;
+  }
+
+  .freefire-character {
+    width: 220px;
+  }
+
+  .freefire-text {
+    font-size: 1.5rem;
+  }
+
+  .freefire-buttons a {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .freefire-logo {
+    width: 120px;
+  }
+
+  .freefire-character {
+    width: 180px;
+  }
+
+  .freefire-text {
+    font-size: 1.2rem;
+  }
+}

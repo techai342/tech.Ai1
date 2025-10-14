@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🌈 Global Body Style */
+body {
+  @apply bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-[Poppins] overflow-x-hidden;
+}
+
+/* 🌀 Smooth Scrolling for Menu Links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ✨ Optional Custom Glow Effects */
+.glow-text {
+  text-shadow: 0 0 10px #4b6bfb, 0 0 20px #4b6bfb, 0 0 40px #4b6bfb;
+}
+
+.glass-bg {
+  @apply bg-white/10 backdrop-blur-lg rounded-xl border border-white/20;
+}

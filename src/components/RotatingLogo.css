@@ -1,0 +1,73 @@
+/* container sits inline (not fixed). Put the component inside your navbar so it moves with the navbar/hero. */
+.rotating-logo-navbar {
+  position: relative;      /* normal flow; will scroll with the page */
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;        /* small spacing from left / Studio Play text */
+  z-index: 20;
+}
+
+/* outer ring (clickable area) */
+.outer-ring {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* ring image rotates (motion handles rotation). pointer-events none so clicks bubble to .outer-ring */
+.outer-ring img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* inner logo sits centered over the ring and is clickable on its own */
+.inner-logo {
+  position: absolute;
+  display: block;
+  width: 28px;
+  height: 28px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 25;
+}
+
+.inner-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 50%;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .rotating-logo-navbar {
+    width: 40px;
+    height: 40px;
+    margin-left: 4px;
+  }
+  .outer-ring { width: 40px; height: 40px; }
+  .outer-ring img { width: 40px; height: 40px; }
+  .inner-logo { width: 22px; height: 22px; }
+}
+
+@media (max-width: 480px) {
+  .rotating-logo-navbar {
+    width: 36px;
+    height: 36px;
+    margin-left: 3px;
+  }
+  .outer-ring { width: 36px; height: 36px; }
+  .outer-ring img { width: 36px; height: 36px; }
+  .inner-logo { width: 20px; height: 20px; }
+}
