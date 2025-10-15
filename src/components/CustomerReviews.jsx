@@ -3,18 +3,27 @@ import { motion } from "framer-motion";
 const reviews = [
   {
     name: "Ali Khan",
-    text: "Absolutely love the design! It's smooth and futuristic. Highly recommended.",
+    country: "🇵🇰 Pakistan",
+    date: "Oct 10, 2025",
+    text: "I purchased a Free Fire account and received it within 5 minutes! The design of the site is super smooth and easy to use.",
     rating: 5,
+    img: "https://i.pravatar.cc/100?img=1",
   },
   {
     name: "Sarah Ahmed",
-    text: "Best UI experience I’ve ever had. Fast, clean and modern.",
+    country: "🇮🇳 India",
+    date: "Oct 8, 2025",
+    text: "Everything was fast and secure. The reviews are real, and I felt safe making my first purchase here.",
     rating: 5,
+    img: "https://i.pravatar.cc/100?img=5",
   },
   {
     name: "John Smith",
-    text: "Amazing animations and user-friendly layout. 10/10!",
+    country: "🇬🇧 UK",
+    date: "Oct 3, 2025",
+    text: "Super easy interface. Loved the glassmorphism design. I’ll definitely recommend this to my friends!",
     rating: 5,
+    img: "https://i.pravatar.cc/100?img=8",
   },
 ];
 
@@ -26,13 +35,13 @@ export default function CustomerReviews() {
     >
       {/* 🏷️ Section Title */}
       <motion.h2
-        className="text-4xl font-bold mb-10 text-center"
+        className="text-4xl font-bold mb-10 text-center text-white"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        Customer Reviews
+        What Our Customers Say 💬
       </motion.h2>
 
       {/* 💬 Reviews Grid */}
@@ -40,7 +49,7 @@ export default function CustomerReviews() {
         {reviews.map((review, index) => (
           <motion.div
             key={index}
-            className="relative group p-6 bg-gradient-to-b from-white/10 to-white/5 rounded-xl shadow-lg hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all overflow-hidden"
+            className="relative group p-6 bg-gradient-to-b from-white/10 to-white/5 rounded-xl shadow-lg hover:scale-105 hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] transition-all overflow-hidden text-left"
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.2 }}
@@ -51,11 +60,31 @@ export default function CustomerReviews() {
 
             {/* 💭 Review Content */}
             <div className="relative z-10">
+              {/* Profile Section */}
+              <div className="flex items-center gap-4 mb-4">
+                <img
+                  src={review.img}
+                  alt={review.name}
+                  className="w-12 h-12 rounded-full border-2 border-white/30"
+                />
+                <div>
+                  <h4 className="font-semibold text-white flex items-center gap-2">
+                    {review.name}
+                    <span className="text-blue-400 text-xs bg-white/10 px-2 py-0.5 rounded-full">
+                      ✔ Verified
+                    </span>
+                  </h4>
+                  <p className="text-gray-400 text-sm">
+                    {review.country} • {review.date}
+                  </p>
+                </div>
+              </div>
+
+              {/* Review Text */}
               <p className="text-gray-200 italic mb-4">“{review.text}”</p>
-              <h4 className="font-semibold text-pink-400">{review.name}</h4>
 
               {/* ⭐ Rating Stars */}
-              <div className="mt-3 flex justify-center text-yellow-400 text-xl">
+              <div className="flex text-yellow-400 text-lg">
                 {[...Array(review.rating)].map((_, i) => (
                   <motion.span
                     key={i}
@@ -67,16 +96,6 @@ export default function CustomerReviews() {
                   </motion.span>
                 ))}
               </div>
-
-              {/* 🏷️ Tag */}
-              <motion.p
-                className="mt-2 text-sm text-gray-400"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-              >
-                Customer Review
-              </motion.p>
             </div>
           </motion.div>
         ))}
