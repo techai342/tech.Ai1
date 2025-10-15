@@ -14,15 +14,9 @@ export default function Contact() {
     e.preventDefault();
 
     const { name, email, message } = formData;
-
-    // 📨 Create the mailto link
     const subject = encodeURIComponent(`New Message from ${name}`);
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-
-    // 👇 Your email address goes here
     const mailtoLink = `mailto:saqib242saqib@gmail.com?subject=${subject}&body=${body}`;
-
-    // 🟢 Open the user's email app
     window.location.href = mailtoLink;
 
     setSent(true);
@@ -30,9 +24,9 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 text-white overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1e1e2f] via-[#111] to-[#0a0a1f] opacity-80"></div>
-
+    <section id="contact" className="relative py-24 text-white overflow-hidden bg-transparent">
+      {/* 🚫 Removed dark gradient background */}
+      
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
