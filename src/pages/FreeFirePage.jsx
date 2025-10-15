@@ -77,10 +77,10 @@ export default function FreeFirePage() {
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-6">
               {[
-                { label: "ID Buy", to: "/buy", gradient: "from-blue-500 to-purple-600" },
-                { label: "ID Sell", to: "/sell", gradient: "from-green-500 to-emerald-600" },
-                { label: "Panels", to: "/panel", gradient: "from-pink-500 to-rose-500" },
-                { label: "Sensitivity", to: "/sensitivity", gradient: "from-yellow-500 to-orange-600" },
+                { label: "ID Buy", to: "/buy", gradient: "from-blue-500 to-purple-600", external: false },
+                { label: "ID Sell", to: "/sell", gradient: "from-green-500 to-emerald-600", external: false },
+                { label: "Panels", to: "https://freefre-pannels.vercel.app/", gradient: "from-pink-500 to-rose-500", external: true },
+                { label: "Sensitivity", to: "https://freefire-five.vercel.app/", gradient: "from-yellow-500 to-orange-600", external: true },
               ].map((btn, i) => (
                 <motion.div
                   key={i}
@@ -89,20 +89,31 @@ export default function FreeFirePage() {
                   transition={{ duration: 0.5, delay: i * 0.2 }}
                   className="w-full sm:w-auto"
                 >
-                  <Link
-                    to={btn.to}
-                    className={`block w-full sm:w-auto text-center px-6 py-3 rounded-lg bg-gradient-to-r ${btn.gradient} shadow-lg hover:scale-105 transition-transform font-semibold`}
-                  >
-                    {btn.label}
-                  </Link>
+                  {btn.external ? (
+                    <a
+                      href={btn.to}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`block w-full sm:w-auto text-center px-6 py-3 rounded-lg bg-gradient-to-r ${btn.gradient} shadow-lg hover:scale-105 transition-transform font-semibold`}
+                    >
+                      {btn.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={btn.to}
+                      className={`block w-full sm:w-auto text-center px-6 py-3 rounded-lg bg-gradient-to-r ${btn.gradient} shadow-lg hover:scale-105 transition-transform font-semibold`}
+                    >
+                      {btn.label}
+                    </Link>
+                  )}
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
       </Element>
-      
-   {/* 📝 Policies Section */}
+
+      {/* 📝 Policies Section */}
       <Element name="policies">
         <section className="py-16 px-4 bg-black/70">
           <div className="max-w-7xl mx-auto">
@@ -110,7 +121,7 @@ export default function FreeFirePage() {
           </div>
         </section>
       </Element>
-      
+
       {/* 🧾 About Section */}
       <Element name="about">
         <section className="py-16 px-4 bg-black/70">
