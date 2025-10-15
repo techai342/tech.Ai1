@@ -12,6 +12,19 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const { name, email, message } = formData;
+
+    // 📨 Create the mailto link
+    const subject = encodeURIComponent(`New Message from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+
+    // 👇 Your email address goes here
+    const mailtoLink = `mailto:saqib242saqib@gmail.com?subject=${subject}&body=${body}`;
+
+    // 🟢 Open the user's email app
+    window.location.href = mailtoLink;
+
     setSent(true);
     setTimeout(() => setSent(false), 3000);
   };
@@ -71,7 +84,6 @@ export default function Contact() {
             className="w-full p-4 rounded-lg bg-white/5 border border-white/20 outline-none text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-400"
           />
 
-          {/* ✅ Fixed button area */}
           <div className="flex justify-center">
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -80,7 +92,7 @@ export default function Contact() {
               type="submit"
               className="inline-block px-8 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-pink-500 font-semibold text-lg shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.5)] transition-all"
             >
-              {sent ? "Message Sent 💫" : "Send Message"}
+              {sent ? "Opening Email App ✨" : "Send Message"}
             </motion.button>
           </div>
         </form>
