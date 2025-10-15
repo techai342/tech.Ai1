@@ -20,6 +20,16 @@ import freefireLogo from "/freefire-logo.png";
 import freefireCharacter from "/freefire-character.png";
 
 export default function FreeFirePage() {
+  const neonButtonClass =
+    "relative block w-full sm:w-auto text-center px-8 py-3 rounded-lg text-white font-semibold uppercase tracking-wide border-2 border-cyan-400 bg-transparent shadow-[0_0_10px_#0ff] transition-all duration-300 overflow-hidden hover:scale-110 hover:shadow-[0_0_25px_#0ff,0_0_50px_#0ff] hover:text-cyan-300";
+
+  const buttons = [
+    { label: "ID Buy", to: "/buy", external: false },
+    { label: "ID Sell", to: "/sell", external: false },
+    { label: "Panels", to: "https://freefre-pannels.vercel.app/", external: true },
+    { label: "Sensitivity", to: "https://freefire-five.vercel.app/", external: true },
+  ];
+
   return (
     <div className="text-white font-[Poppins]">
       {/* 🧭 ✅ FreeFire Navbar */}
@@ -76,33 +86,28 @@ export default function FreeFirePage() {
             />
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 mt-6">
-              {[
-                { label: "ID Buy", to: "/buy", gradient: "from-blue-500 to-purple-600", external: false },
-                { label: "ID Sell", to: "/sell", gradient: "from-green-500 to-emerald-600", external: false },
-                { label: "Panels", to: "https://freefre-pannels.vercel.app/", gradient: "from-pink-500 to-rose-500", external: true },
-                { label: "Sensitivity", to: "https://freefire-five.vercel.app/", gradient: "from-yellow-500 to-orange-600", external: true },
-              ].map((btn, i) => (
+              {buttons.map((btn, i) => (
                 <motion.div
                   key={i}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.5, delay: i * 0.2 }}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto relative group"
                 >
+                  {/* Neon light burst effect */}
+                  <span className="absolute inset-0 rounded-lg bg-cyan-400 opacity-0 group-hover:opacity-20 blur-xl transition duration-300"></span>
+
                   {btn.external ? (
                     <a
                       href={btn.to}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`block w-full sm:w-auto text-center px-6 py-3 rounded-lg bg-gradient-to-r ${btn.gradient} shadow-lg hover:scale-105 transition-transform font-semibold`}
+                      className={neonButtonClass}
                     >
                       {btn.label}
                     </a>
                   ) : (
-                    <Link
-                      to={btn.to}
-                      className={`block w-full sm:w-auto text-center px-6 py-3 rounded-lg bg-gradient-to-r ${btn.gradient} shadow-lg hover:scale-105 transition-transform font-semibold`}
-                    >
+                    <Link to={btn.to} className={neonButtonClass}>
                       {btn.label}
                     </Link>
                   )}
