@@ -31,7 +31,7 @@ export default function HeroSection() {
 
       {/* 🎯 Buttons */}
       <div className="flex flex-wrap justify-center gap-4">
-        {/* 🌟 Scroll to Feature Section */}
+        {/* 🌟 Get Started Button */}
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
           <ScrollLink
             to="features"
@@ -44,11 +44,11 @@ export default function HeroSection() {
           </ScrollLink>
         </motion.div>
 
-        {/* 🆕 Free Fire Page Button */}
+        {/* 🔥 Free Fire Button (Styled same as Get Started) */}
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
           <Link
             to="/freefire"
-            className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(255,100,0,0.6)] font-semibold transition-all"
+            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-pink-500 rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.5)] font-semibold transition-all cursor-pointer"
           >
             🔥 Free Fire
           </Link>
