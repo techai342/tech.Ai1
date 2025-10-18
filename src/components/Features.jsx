@@ -12,8 +12,9 @@ import { SiPubg } from "react-icons/si";
 import { MdStore } from "react-icons/md";
 
 const features = [
-  { id: 1, title: "Social Media Service", icon: <FaGlobe className="text-4xl text-cyan-400" />, link: "https://saqib-pannelpk.vercel.app" },
+
   { id: 2, title: "Premium App Version", icon: <FaMobileAlt className="text-4xl text-pink-400" />, link: "https://muhammad-saqib21.vercel.app/" },
+  { id: 1, title: "Social Media Service", icon: <FaGlobe className="text-4xl text-cyan-400" />, link: "https://saqib-pannelpk.vercel.app" },
   { id: 3, title: "WhatsApp Bot", icon: <FaWhatsapp className="text-4xl text-green-400" />, link: "https://muhammad-saqib30.vercel.app/" },
   { id: 4, title: "Best AI Tool", icon: <FaRobot className="text-4xl text-purple-400" />, link: "https://ailogin.vercel.app/" },
   { id: 5, title: "Free Virtual Number", icon: <FaBolt className="text-4xl text-yellow-400" />, link: "https://sms.stats.tel/" },
@@ -89,5 +90,6 @@ export default function Features() {
     </section>
   );
 }
+
 
 
