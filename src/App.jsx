@@ -6,7 +6,6 @@ import FreeFireNavbar from "./components/FreeFireNavbar";  // ✅ Import FreeFir
 
 import HeroSection from "./components/HeroSection";
 import Features from "./components/Features";
-import ProductCarousel from "./components/ProductCarousel";
 import PricingSection from "./components/PricingSection";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -52,12 +51,6 @@ function Layout() {
               <section id="features">
                 <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
                   <Features />
-                </motion.div>
-              </section>
-
-              <section id="products">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <ProductCarousel />
                 </motion.div>
               </section>
 
@@ -122,3 +115,4 @@ export default function App() {
     </Router>
   );
 }
+
