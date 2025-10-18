@@ -8,7 +8,6 @@ export default function Navbar() {
   const menuItems = [
     { name: "Home", link: "#home" },
     { name: "Features", link: "#features" },
-    { name: "Products", link: "#products" },
     { name: "Pricing", link: "#pricing" },  // 🆕 ✅ Pricing Section Added
     { name: "About", link: "#about" },
     { name: "Team", link: "#team" },
