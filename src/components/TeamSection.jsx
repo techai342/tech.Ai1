@@ -8,12 +8,6 @@ const team = [
     img: "https://i.supaimg.com/ad170c21-39c3-445b-8621-cd9226eab998.jpg",
     whatsapp: "923478936242", // ✅ 92 instead of 0 for WhatsApp links
   },
-  {
-    name: "Muhammad Ahad",
-    role: "TECH.CONTROL",
-    img: "https://i.supaimg.com/fb842d17-21a4-4f9e-8eab-cfc2d297161d.png",
-    whatsapp: "923071356242",
-  },
 ];
 
 export default function TeamSection() {
@@ -33,11 +27,11 @@ export default function TeamSection() {
         transition={{ duration: 1 }}
         viewport={{ once: true }}
       >
-        MEET OWNERS
+        MEET OWNER
       </motion.h2>
 
-      {/* 👥 Team Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 relative z-10">
+      {/* 👤 Single Member Card */}
+      <div className="grid grid-cols-1 gap-10 relative z-10">
         {team.map((member, index) => (
           <motion.div
             key={index}
@@ -62,7 +56,6 @@ export default function TeamSection() {
                 alt={member.name}
                 className="w-full h-full object-cover rounded-full border-2 border-cyan-400 shadow-lg group-hover:rotate-3 transition-transform duration-500"
               />
-              {/* 💫 Glow ring */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-pink-500 opacity-20 blur-lg group-hover:opacity-50 transition duration-500"></div>
             </div>
 
