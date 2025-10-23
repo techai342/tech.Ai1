@@ -29,7 +29,7 @@ export default function HeroSection() {
         virtual numbers, Free Fire sensitivity & panels, PUBG hacks, top AI tools, and powerful editing tools — all in one place. 🚀🔥
       </motion.p>
 
-      {/* 🎯 Buttons */}
+      {/* 🎯 Buttons Section */}
       <div className="flex flex-wrap justify-center gap-4">
         {/* 🌟 Get Started Button */}
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
@@ -44,13 +44,23 @@ export default function HeroSection() {
           </ScrollLink>
         </motion.div>
 
-        {/* 🔥 Free Fire Button (Styled same as Get Started) */}
+        {/* 🔥 Free Fire Button */}
         <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
           <Link
             to="/freefire"
             className="px-6 py-3 bg-gradient-to-r from-blue-500 to-pink-500 rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.5)] font-semibold transition-all cursor-pointer"
           >
             🔥 Free Fire
+          </Link>
+        </motion.div>
+
+        {/* 🧠 Tools Button (NEW) */}
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            to="/tools"
+            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-pink-500 rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.5)] font-semibold transition-all cursor-pointer"
+          >
+            🧠 AI Tools
           </Link>
         </motion.div>
       </div>
