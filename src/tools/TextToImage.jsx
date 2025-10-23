@@ -1,60 +1,82 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
 
 export default function TextToImage() {
-  const [prompt, setPrompt] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [text, setText] = useState("");
+  const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const generateImage = async () => {
-    setLoading(true);
-    const resp = await fetch("https://api.deepai.org/api/text2img", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "api-key": "YOUR_API_KEY"
-      },
-      body: JSON.stringify({ text: prompt }),
-    });
+  async function generateImage() {
+    if (!text.trim()) {
+      alert("Please enter some text first!");
+      return;
+    }
 
-    const data = await resp.json();
-    setImageUrl(data.output_url);
-    setLoading(false);
-  };
+    setLoading(true);
+    setImage("");
+
+    try {
+      const formData = new FormData();
+      formData.append("text", text);
+
+      const resp = await fetch("https://api.deepai.org/api/text2img", {
+        method: "POST",
+        headers: {
+          "api-key": "5e750f82-e4b6-41ee-a1e4-60161fdb07c5", // 🔑 Use your valid DeepAI key here
+        },
+        body: formData,
+      });
+
+      const data = await resp.json();
+      console.log("API response:", data);
+
+      if (data.output_url) {
+        setImage(data.output_url);
+      } else {
+        alert("Failed to generate image. Try again!");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong. Check console for details.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <motion.div
-      className="min-h-screen flex flex-col items-center justify-center text-white backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl shadow-[0_0_20px_#00ffff] p-8"
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6 }}
-    >
-      <h1 className="text-3xl font-bold mb-6 text-cyan-300">? AI Text to Image Generator</h1>
+    <div className="flex flex-col items-center gap-4">
       <input
         type="text"
-        placeholder="Type your imagination..."
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        className="w-full max-w-md p-3 rounded-lg bg-white/20 border border-white/30 text-center placeholder-gray-300 mb-4 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Enter text (e.g. futuristic city in neon)"
+        className="w-full p-3 rounded-lg text-black outline-none"
       />
+
       <button
         onClick={generateImage}
         disabled={loading}
-        className="px-6 py-2 bg-cyan-500 hover:bg-cyan-400 text-white rounded-full shadow-lg hover:shadow-[0_0_20px_#00ffff] transition-all"
+        className="bg-gradient-to-r from-blue-500 to-pink-500 px-5 py-2 rounded-lg font-semibold text-white hover:opacity-90 transition-all"
       >
         {loading ? "Generating..." : "Generate Image"}
       </button>
 
-      {imageUrl && (
-        <motion.img
-          src={imageUrl}
-          alt="Generated"
-          className="mt-6 w-80 rounded-2xl shadow-[0_0_25px_#00ffff]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        />
+      {image && (
+        <div className="mt-5 flex flex-col items-center">
+          <img
+            src={image}
+            alt="Generated"
+            className="rounded-xl border border-white/20 shadow-[0_0_25px_rgba(255,0,255,0.3)] max-w-sm"
+          />
+          <a
+            href={image}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 text-cyan-300 underline hover:text-pink-400 transition"
+          >
+            View Full Image
+          </a>
+        </div>
       )}
-    </motion.div>
+    </div>
   );
 }
