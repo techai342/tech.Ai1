@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import FreeFireNavbar from "./components/FreeFireNavbar";  // ✅ Import FreeFireNavbar
+import FreeFireNavbar from "./components/FreeFireNavbar";
 
 import HeroSection from "./components/HeroSection";
 import Features from "./components/Features";
@@ -19,10 +19,15 @@ import AccountsPage from "./accounts/AccountsPage";
 import FreeFirePage from "./pages/FreeFirePage";
 import SellPage from "./pages/SellPage";
 
+// 🧩 Auto import all tools from tools folder
+const toolModules = import.meta.glob("./tools/*.jsx", { eager: true });
+const toolPages = Object.entries(toolModules).map(([path, mod]) => {
+  const name = path.split("/").pop().replace(".jsx", "").toLowerCase();
+  return { name, Component: mod.default };
+});
+
 function Layout() {
   const location = useLocation();
-
-  // ✅ Show FreeFireNavbar only on /freefire
   const isFreeFirePage = location.pathname === "/freefire";
 
   return (
@@ -32,63 +37,86 @@ function Layout() {
         <ThemeManager />
       </div>
 
-      {/* ✅ Navbar Handling */}
+      {/* Navbar */}
       {isFreeFirePage ? <FreeFireNavbar /> : <Navbar />}
 
-      {/* Routes */}
       <Routes>
-        {/* 🏠 Home Page */}
+        {/* 🏠 Home */}
         <Route
           path="/"
           element={
             <>
-              <section id="home">
-                <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-                  <HeroSection />
-                </motion.div>
-              </section>
+              <motion.section
+                id="home"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+              >
+                <HeroSection />
+              </motion.section>
 
-              <section id="features">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <Features />
-                </motion.div>
-              </section>
+              <motion.section
+                id="features"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <Features />
+              </motion.section>
 
-              <section id="pricing">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <PricingSection />
-                </motion.div>
-              </section>
+              <motion.section
+                id="pricing"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <PricingSection />
+              </motion.section>
 
-              <section id="about">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <About />
-                </motion.div>
-              </section>
+              <motion.section
+                id="about"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <About />
+              </motion.section>
 
-              <section id="faq">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <FAQSection />
-                </motion.div>
-              </section>
+              <motion.section
+                id="faq"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <FAQSection />
+              </motion.section>
 
-              <section id="team">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <TeamSection />
-                </motion.div>
-              </section>
+              <motion.section
+                id="team"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <TeamSection />
+              </motion.section>
 
-              <section id="reviews">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <CustomerReviews />
-                </motion.div>
-              </section>
+              <motion.section
+                id="reviews"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <CustomerReviews />
+              </motion.section>
 
-              <section id="contact">
-                <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 40 }} transition={{ duration: 1 }}>
-                  <Contact />
-                </motion.div>
-              </section>
+              <motion.section
+                id="contact"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <Contact />
+              </motion.section>
             </>
           }
         />
@@ -96,11 +124,16 @@ function Layout() {
         {/* 🆓 Free Fire Page */}
         <Route path="/freefire" element={<FreeFirePage />} />
 
-        {/* 🟩 ID Buy Page → uses its OWN navbar (no change) */}
+        {/* 🛒 Accounts Page */}
         <Route path="/buy" element={<AccountsPage />} />
 
-        {/* 🟥 Sell Page → uses default Navbar */}
+        {/* 🟥 Sell Page */}
         <Route path="/sell" element={<SellPage />} />
+
+        {/* ⚡ Auto AI Tools */}
+        {toolPages.map(({ name, Component }) => (
+          <Route key={name} path={`/${name}`} element={<Component />} />
+        ))}
       </Routes>
 
       <Footer />
@@ -115,4 +148,3 @@ export default function App() {
     </Router>
   );
 }
-
