@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 
 import Navbar from "./components/Navbar";
 import FreeFireNavbar from "./components/FreeFireNavbar";
-
+import ToolsPage from "./pages/ToolsPage";
 import HeroSection from "./components/HeroSection";
 import Features from "./components/Features";
 import PricingSection from "./components/PricingSection";
@@ -124,6 +124,9 @@ function Layout() {
         {/* 🆓 Free Fire Page */}
         <Route path="/freefire" element={<FreeFirePage />} />
 
+         {/* 🆓 tools Page */}
+        <Route path="/tools" element={<ToolsPage />} />
+        
         {/* 🛒 Accounts Page */}
         <Route path="/buy" element={<AccountsPage />} />
 
@@ -148,3 +151,4 @@ export default function App() {
     </Router>
   );
 }
+
