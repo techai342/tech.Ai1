@@ -54,16 +54,8 @@ export default function HeroSection() {
           </Link>
         </motion.div>
 
-        {/* 🧠 Tools Button (NEW) */}
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-          <Link
-            to="/tools"
-            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-pink-500 rounded-lg shadow-lg hover:shadow-[0_0_25px_rgba(255,0,255,0.5)] font-semibold transition-all cursor-pointer"
-          >
-            🧠 AI Tools
-          </Link>
-        </motion.div>
       </div>
     </section>
   );
 }
+
