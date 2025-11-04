@@ -9,7 +9,7 @@ export default function ChatBot({
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
-  const [autoSpeak, setAutoSpeak] = useState(true);
+  const [autoSpeak, setAutoSpeak] = useState(false);
   const [listening, setListening] = useState(false);
   const boxRef = useRef(null);
   const idRef = useRef(1);
