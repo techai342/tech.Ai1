@@ -18,6 +18,7 @@ import FAQSection from "./components/FAQSection";
 import AccountsPage from "./accounts/AccountsPage";
 import FreeFirePage from "./pages/FreeFirePage";
 import SellPage from "./pages/SellPage";
+import ChatBot from "./components/ChatBot";
 
 // 🧩 Auto import all tools from tools folder
 const toolModules = import.meta.glob("./tools/*.jsx", { eager: true });
@@ -138,7 +139,7 @@ function Layout() {
           <Route key={name} path={`/${name}`} element={<Component />} />
         ))}
       </Routes>
-
+      <ChatBot position="left" />
       <Footer />
     </div>
   );
@@ -151,4 +152,5 @@ export default function App() {
     </Router>
   );
 }
+
 
