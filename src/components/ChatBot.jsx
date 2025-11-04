@@ -1,85 +1,203 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MessageCircle, SendHorizontal, Mic, X, Maximize2, Minimize2, Volume2 } from "lucide-react";
+import { MessageCircle, Send, Mic, X, Maximize2, Minimize2, Volume2 } from "lucide-react";
 
-export default function ChatBot() {
+import { businessInfo, products, faqs } from "../data/FAQContent.js";
+
+export default function ChatBot({
+  apiUrl = "https://corsproxy.io/?https://api.nekolabs.web.id/ai/cf/gpt-oss-120b?text=",
+  language = "auto",
+}) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: "bot", text: "Assalamualaikum! Mein TechChatBot hoon. Aap ko kis cheez ki madad chahiye?" }
+    { id: 0, role: "bot", text: "Assalamualaikum! Mein TechChatBot hoon. Aap ko kis cheez ki madad chahiye?" },
   ]);
   const [input, setInput] = useState("");
-  const [isListening, setIsListening] = useState(false);
+  const [thinking, setThinking] = useState(false);
   const [autoSpeak, setAutoSpeak] = useState(true);
-  const messagesEndRef = useRef(null);
-
-  const synth = window.speechSynthesis;
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
-  if (recognition) recognition.lang = "ur-PK";
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const [listening, setListening] = useState(false);
+  const boxRef = useRef(null);
+  const idRef = useRef(1);
+  const recognitionRef = useRef(null);
 
   useEffect(() => {
-    scrollToBottom();
-    if (autoSpeak && messages[messages.length - 1]?.role === "bot") {
-      const speakMsg = new SpeechSynthesisUtterance(messages[messages.length - 1]?.text);
-      speakMsg.lang = detectLang(messages[messages.length - 1]?.text);
-      synth.speak(speakMsg);
-    }
-  }, [messages]);
+    if (boxRef.current) boxRef.current.scrollTop = boxRef.current.scrollHeight;
+  }, [messages, open]);
 
-  const detectLang = (text) => /[اآؤئیء-ی]/.test(text) ? "ur-PK" : "en-US";
-
-  const handleSend = () => {
-    if (!input.trim()) return;
-    const userMsg = { role: "user", text: input };
-    setMessages([...messages, userMsg]);
-    setInput("");
-
-    setTimeout(() => {
-      const botReply = generateBotResponse(input);
-      setMessages((prev) => [...prev, { role: "bot", text: botReply }]);
-    }, 600);
-  };
-
-  const generateBotResponse = (msg) => {
-    const lower = msg.toLowerCase();
-    if (lower.includes("uk") && lower.includes("price")) return "UK Free Fire Account ki price 1200 PKR hai ✅";
-    if (lower.includes("saqib")) return "Saqib bohat zabardast developer hai ✅🔥";
-    if (lower.includes("number")) return "Saqib ka WhatsApp number: 03478936242 📞";
-    return "Theek hai! Mein samajh raha hun — zyada maloomat jald generate kar raha hun!";
-  };
-
-  const toggleVoice = () => {
-    if (!recognition) return;
-    if (!isListening) recognition.start();
-    else recognition.stop();
-    setIsListening(!isListening);
-  };
-
-  if (recognition) {
-    recognition.onresult = (e) => {
-      const text = e.results[0][0].transcript;
-      setInput(text);
-      handleSend();
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+    if (!SpeechRecognition) return;
+    const recog = new SpeechRecognition();
+    recog.lang = "en-US";
+    recog.interimResults = false;
+    recog.maxAlternatives = 1;
+    recog.onresult = (e) => {
+      const transcript = Array.from(e.results).map((r) => r[0].transcript).join("");
+      setInput((prev) => (prev ? prev + " " + transcript : transcript));
     };
+    recog.onend = () => setListening(false);
+    recognitionRef.current = recog;
+  }, []);
+
+  function nextId() {
+    const id = idRef.current;
+    idRef.current += 1;
+    return id;
   }
 
-  const speakOne = (text) => {
-    const msg = new SpeechSynthesisUtterance(text);
-    msg.lang = detectLang(text);
-    synth.speak(msg);
-  };
+  function detectLang(text) {
+    if (/[؀-ۿ\u0600-\u06FF]/.test(text)) return "ur-PK";
+    if (/[ا-ی]/.test(text)) return "ur-PK";
+    return "en-US";
+  }
+
+  function speakText(text) {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(String(text));
+    const lang = detectLang(text);
+    utter.lang = lang;
+    const voices = window.speechSynthesis.getVoices();
+    if (voices && voices.length) {
+      const match = voices.find((v) => v.lang && v.lang.toLowerCase().startsWith(lang.slice(0, 2)));
+      if (match) utter.voice = match;
+    }
+    utter.rate = 1;
+    utter.pitch = 1;
+    window.speechSynthesis.speak(utter);
+  }
+
+  function findLocalAnswer(text) {
+    const t = String(text || "").toLowerCase();
+    for (const p of products || []) {
+      const name = String(p.name || "").toLowerCase();
+      if (!name) continue;
+      const tokens = name.split(/\s+/).filter(Boolean);
+      if (t.includes(name) || tokens.some((tok) => t.includes(tok))) {
+        return `Product: ${p.name}\nPrice: ${p.price}\nDetails: ${p.details || ""}`;
+      }
+    }
+    for (const f of faqs || []) {
+      const q = String(f.q || "").toLowerCase();
+      const words = q.split(/\W+/).filter(Boolean).slice(0, 6);
+      if (words.length === 0) continue;
+      if (words.every((w) => t.includes(w))) return `Q: ${f.q}\nA: ${f.a}`;
+      if (words.some((w) => t.includes(w))) return `Q: ${f.q}\nA: ${f.a}`;
+    }
+    if (t.includes("contact") || t.includes("whatsapp") || t.includes("number") || t.includes("phone")) {
+      return `Contact: ${businessInfo.whatsapp} (WhatsApp). Business owner: ${businessInfo.owner}`;
+    }
+    return null;
+  }
+
+  function renderTextToHtml(text) {
+    if (!text) return "";
+    const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return esc(text).replace(/\n/g, "<br/>");
+  }
+
+  function addMessage(role, text) {
+    const msg = { id: nextId(), role, text, ts: Date.now() };
+    setMessages((prev) => [...prev, msg]);
+    return msg.id;
+  }
+
+  function removeMessageById(id) {
+    setMessages((prev) => prev.filter((m) => m.id !== id));
+  }
+
+  async function sendMessage() {
+    const text = input.trim();
+    if (!text || thinking) return;
+    addMessage("user", `🧑 ${text}`);
+    setInput("");
+    const local = findLocalAnswer(text);
+    if (local) {
+      const id = addMessage("bot", `🤖 ${local}`);
+      if (autoSpeak) speakText(local);
+      return;
+    }
+    setThinking(true);
+    const placeholderId = addMessage("bot", language === "ur" ? "🤖 سوچ رہا ہوں..." : "🤖 Thinking...");
+    try {
+      let requestUrl = String(apiUrl || "");
+      let data;
+      if (!requestUrl) throw new Error("API URL not provided");
+      if (requestUrl.includes("?") && requestUrl.endsWith("=")) {
+        requestUrl = requestUrl + encodeURIComponent(text);
+        const res = await fetch(requestUrl, { method: "GET" });
+        if (!res.ok) throw new Error(`API error ${res.status}`);
+        data = await res.json();
+      } else {
+        const res = await fetch(requestUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        if (!res.ok) throw new Error(`API error ${res.status}`);
+        data = await res.json();
+      }
+      removeMessageById(placeholderId);
+      let reply = "";
+      if (data && typeof data === "object" && "result" in data) {
+        reply = typeof data.result === "string" ? data.result : data.result.response || JSON.stringify(data.result);
+      } else if (typeof data === "string") {
+        reply = data;
+      } else {
+        reply = JSON.stringify(data);
+      }
+      const id = addMessage("bot", `🤖 ${reply}`);
+      if (autoSpeak) speakText(reply);
+    } catch (err) {
+      removeMessageById(placeholderId);
+      const id = addMessage("bot", `⚠️ Error: ${err.message}`);
+      if (autoSpeak) speakText(`Error: ${err.message}`);
+    } finally {
+      setThinking(false);
+    }
+  }
+
+  function handleKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function toggleListening() {
+    const recog = recognitionRef.current;
+    if (!recog) return;
+    if (listening) {
+      try {
+        recog.stop();
+      } catch (e) {}
+      setListening(false);
+    } else {
+      try {
+        recog.lang = "en-US";
+        recog.start();
+        setListening(true);
+      } catch (e) {
+        setListening(false);
+      }
+    }
+  }
 
   return (
     <>
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed right-4 bottom-6 z-[999999] w-16 h-16 rounded-full flex items-center justify-center bg-purple-700 shadow-[0_0_20px_6px_rgba(147,51,234,0.9)] animate-pulse border-2 border-purple-400"
-      >
-        {open ? <X size={28}/> : <MessageCircle size={30}/>}
-      </button>
+      <div className="fixed right-4 bottom-6 z-[999999]">
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="w-16 h-16 rounded-full flex items-center justify-center transform transition-transform hover:scale-105"
+          style={{
+            background: "linear-gradient(135deg,#7c3aed,#a78bfa)",
+            boxShadow: "0 10px 30px rgba(124,58,237,0.35), 0 0 40px rgba(124,58,237,0.25), inset 0 -6px 20px rgba(167,139,250,0.12)",
+            border: "2px solid rgba(167,139,250,0.25)",
+          }}
+          aria-label="Open TechChatBot"
+        >
+          {open ? <X color="#fff" size={26} /> : <MessageCircle color="#fff" size={26} />}
+        </button>
+      </div>
 
       <div
         className={`fixed right-4 bottom-24 z-[99999] transition-all duration-200 ${
@@ -87,57 +205,108 @@ export default function ChatBot() {
         }`}
         style={{ width: "min(92vw,420px)" }}
       >
-        <div className="bg-black bg-opacity-60 backdrop-blur-2xl rounded-xl border border-purple-500 shadow-[0_0_30px_10px_rgba(168,85,247,0.7)] overflow-hidden">
-          <div className="p-3 max-h-[420px] overflow-y-auto space-y-3">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
+        <div
+          className="rounded-2xl p-3"
+          style={{
+            background: "linear-gradient(180deg, rgba(12,8,22,0.78), rgba(30,10,50,0.44))",
+            border: "1px solid rgba(167,139,250,0.16)",
+            backdropFilter: "blur(8px)",
+            boxShadow: "0 12px 40px rgba(124,58,237,0.18)",
+          }}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <div className="text-white font-semibold">TechChatBot</div>
+              <div className="text-xs text-white/70">Free Fire accounts & site help</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 text-xs">
+                <label className="text-white/70">AutoSpeak</label>
+                <input type="checkbox" checked={autoSpeak} onChange={() => setAutoSpeak((v) => !v)} className="w-4 h-4 rounded bg-white/10" />
+              </div>
+              <button onClick={() => setMessages([])} className="text-xs px-2 py-1 rounded bg-white/8">
+                Clear
+              </button>
+              <button onClick={() => setOpen(false)} className="text-xs px-2 py-1 rounded bg-white/8">
+                Close
+              </button>
+            </div>
+          </div>
+
+          <div ref={boxRef} className="max-h-[46vh] sm:max-h-72 overflow-auto rounded-lg p-2" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.06), rgba(255,255,255,0.02))" }}>
+            {messages.length === 0 && (
+              <div className="text-sm text-white/70">{language === "ur" ? "Poochho kuch — main TECH.AI services me madad karunga." : "Ask anything about TECH.AI services."}</div>
+            )}
+
+            {messages.map((m) => (
+              <div key={m.id} className={`my-2 ${m.role === "user" ? "ml-auto text-right" : ""}`}>
                 <div
-                  className={`p-3 rounded-xl text-sm max-w-[80%] ${
-                    msg.role === "user"
-                      ? "bg-purple-700 text-white"
-                      : "bg-white bg-opacity-10 text-purple-200"
-                  }`}
+                  className={`inline-block p-3 rounded-lg ${m.role === "user" ? "bg-purple-700 text-white" : "bg-gradient-to-r from-purple-700/30 to-purple-500/20 text-white"}`}
+                  style={{ maxWidth: "85%" }}
                 >
-                  {msg.text}
-                  {msg.role === "bot" && (
-                    <button
-                      className="ml-2 inline-block"
-                      onClick={() => speakOne(msg.text)}
-                    >
-                      <Volume2 size={16}/>
-                    </button>
+                  <div dangerouslySetInnerHTML={{ __html: renderTextToHtml(m.text) }} />
+                  {m.role === "bot" && (
+                    <div className="mt-2 flex items-center gap-2 justify-end">
+                      <button onClick={() => speakText(m.text)} className="text-xs px-2 py-1 rounded bg-white/6">
+                        <Volume2 size={14} />
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard?.writeText(String(m.text));
+                        }}
+                        className="text-xs px-2 py-1 rounded bg-white/6"
+                      >
+                        📋
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
             ))}
-            <div ref={messagesEndRef}/>
           </div>
 
-          <div className="flex p-2 gap-2">
-            <button
-              onClick={toggleVoice}
-              className={`p-2 rounded-lg border w-10 flex justify-center ${
-                isListening ? "bg-green-600" : "bg-purple-600"
-              }`}
-            >
-              <Mic size={18}/>
-            </button>
-            <input
-              className="flex-1 p-2 bg-black bg-opacity-30 outline-none text-white rounded-lg"
-              placeholder="Type message..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            />
-            <button
-              onClick={handleSend}
-              className="p-2 bg-purple-700 rounded-lg"
-            >
-              <SendHorizontal size={20}/>
-            </button>
+          <div className="mt-3">
+            <div className="flex gap-2 items-center">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKey}
+                rows={2}
+                placeholder={language === "ur" ? "Apna message type karen..." : "Type your message..."}
+                className="flex-1 resize-none rounded-md p-2 text-sm bg-white/95 text-black border border-white/8"
+              />
+              <button
+                onClick={toggleListening}
+                className={`w-10 h-10 rounded-full flex items-center justify-center ${listening ? "bg-red-500 text-white" : "bg-white/90 text-black"}`}
+              >
+                <Mic size={18} />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between mt-2">
+              <div className="text-xs text-white/70">{thinking ? (language === "ur" ? "Responding…" : "Responding…") : ""}</div>
+              <div className="flex gap-2">
+                <button onClick={() => setInput("Show me available Free Fire accounts and prices.")} className="text-xs px-3 py-1 rounded bg-white/8">
+                  Example
+                </button>
+                <button
+                  onClick={sendMessage}
+                  disabled={thinking}
+                  className="text-sm px-3 py-2 rounded"
+                  style={{ background: "linear-gradient(90deg,#a78bfa,#7c3aed)", color: "white" }}
+                >
+                  <SendHorizontal size={16} />
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-2 text-xs text-white/60">
+              Want to buy? Tap{" "}
+              <a href={`https://wa.me/${businessInfo.whatsapp}`} target="_blank" rel="noreferrer" className="underline">
+                WhatsApp
+              </a>
+              .
+            </div>
           </div>
         </div>
       </div>
