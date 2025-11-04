@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { businessInfo, products, faqs } from "../data/FAQContent.js";
+import { businessInfo, products, faqs } from "../data/FAQContent";
 
 export default function ChatBot({
   apiUrl = "https://corsproxy.io/?https://api.nekolabs.web.id/ai/cf/gpt-oss-120b?text=",
@@ -19,7 +19,6 @@ export default function ChatBot({
     if (boxRef.current) boxRef.current.scrollTop = boxRef.current.scrollHeight;
   }, [messages, open]);
 
-  // SpeechRecognition setup (if available)
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
     if (!SpeechRecognition) return;
@@ -28,8 +27,10 @@ export default function ChatBot({
     recog.interimResults = false;
     recog.maxAlternatives = 1;
     recog.onresult = (e) => {
-      const transcript = Array.from(e.results).map((r) => r[0].transcript).join("");
-      setInput((prev) => (prev ? prev + " " + transcript : transcript));
+      const transcript = Array.from(e.results)
+        .map(r => r[0].transcript)
+        .join("");
+      setInput(prev => (prev ? prev + " " + transcript : transcript));
     };
     recog.onend = () => setListening(false);
     recognitionRef.current = recog;
@@ -41,129 +42,49 @@ export default function ChatBot({
     return id;
   }
 
-  function detectLangCode(text) {
-    if (!text) return "en";
-    if (/[؀-ۿ\u0600-\u06FF]/.test(text)) return "ur";
-    return "en";
-  }
-
   function speakText(text) {
     if (!("speechSynthesis" in window)) return;
-    try {
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(String(text));
-      const langCode = detectLangCode(text) === "ur" ? "ur-PK" : "en-US";
-      utter.lang = langCode;
-      const voices = window.speechSynthesis.getVoices();
-      if (voices && voices.length) {
-        const match = voices.find((v) => v.lang && v.lang.toLowerCase().startsWith(utter.lang.slice(0, 2)));
-        if (match) utter.voice = match;
-      }
-      utter.rate = 1;
-      utter.pitch = 1;
-      window.speechSynthesis.speak(utter);
-    } catch (e) {
-      // ignore speech errors silently
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(String(text));
+    const lang = detectLang(text);
+    utter.lang = lang;
+    const voices = window.speechSynthesis.getVoices();
+    if (voices && voices.length) {
+      const match = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(lang.slice(0,2)));
+      if (match) utter.voice = match;
     }
+    utter.rate = 1;
+    utter.pitch = 1;
+    window.speechSynthesis.speak(utter);
   }
 
-  function addMessage(role, text) {
-    const msg = { id: nextId(), role, text, ts: Date.now() };
-    setMessages((prev) => [...prev, msg]);
-    return msg.id;
+  function detectLang(text) {
+    if (/[؀-ۿ]/.test(text)) return "ur-PK";
+    if (/[ا-ی]/.test(text)) return "ur-PK";
+    return "en-US";
   }
 
-  function removeMessageById(id) {
-    setMessages((prev) => prev.filter((m) => m.id !== id));
-  }
-
-  // simple normalization to improve matching
-  function normalize(s) {
-    return String(s || "").toLowerCase().replace(/[^\wء-ي]+/g, " ").trim();
-  }
-
-  // smart local answer finder (fuzzy-ish + keywords)
   function findLocalAnswer(text) {
-    const t = normalize(text);
-
-    // 1) direct product match by name tokens
+    const t = String(text || "").toLowerCase();
     for (const p of products || []) {
-      const nameNorm = normalize(p.name);
-      if (!nameNorm) continue;
-      // exact phrase
-      if (t.includes(nameNorm)) return formatProductResponse(p, text);
-      // token match
-      const tokens = nameNorm.split(/\s+/).filter(Boolean);
-      if (tokens.some((tok) => t.includes(tok))) return formatProductResponse(p, text);
-    }
-
-    // 2) hack tools detection (list B)
-    const hackKeywords = ["tiktok", "facebook", "instagram", "android", "wifi", "pubg", "free fire", "freefire", "snapchat", "gmail", "whatsapp", "hack", "hack tools"];
-    if (hackKeywords.some((k) => t.includes(k))) {
-      return languageResponse({
-        en: `Hack Tools are priced at 900 PKR. Tools available: TikTok, Facebook, Instagram, Android, WiFi, PUBG, Free Fire, Snapchat, Gmail, WhatsApp.`,
-        ur: `Hack tools ki keemat 900 PKR hai. Available tools: TikTok, Facebook, Instagram, Android, WiFi, PUBG, Free Fire, Snapchat, Gmail, WhatsApp.`,
-      }, text);
-    }
-
-    // 3) virtual / fake number
-    if (t.includes("virtual") || t.includes("fake") || t.includes("virtual number") || t.includes("fake number") || t.includes("virtual sim") || t.includes("virtual no")) {
-      return languageResponse({
-        en: `Virtual / fake numbers cost 400 PKR.`,
-        ur: `Virtual / fake numbers ki price 400 PKR hai.`,
-      }, text);
-    }
-
-    // 4) sensitivity (free fire / pubg)
-    if (t.includes("sensitivity") || t.includes("sensitivity settings") || t.includes("sensitivity free") || t.includes("sensitivity pubg") || t.includes("sensitivity free fire") || t.includes("sensitivity ff")) {
-      return languageResponse({
-        en: `Free Fire / PUBG sensitivity settings cost 100 PKR.`,
-        ur: `Free Fire / PUBG sensitivity settings ki price 100 PKR hai.`,
-      }, text);
-    }
-
-    // 5) apps default price detection (any app in appsIncluded priced 200)
-    for (const p of products || []) {
-      const nameNorm = normalize(p.name);
-      if (!nameNorm) continue;
-      // check for common app keywords only for apps priced 200
-      const apps200 = ["netflix", "inshot", "remini", "picsart", "spotify", "youtube music", "photolab", "movie box", "alight motion", "photroom", "photo room", "best video downloader", "telegram"];
-      if (apps200.some((a) => t.includes(a) && nameNorm.includes(a))) {
-        return formatProductResponse(p, text);
+      const name = String(p.name || "").toLowerCase();
+      if (!name) continue;
+      const tokens = name.split(/\s+/).filter(Boolean);
+      if (t.includes(name) || tokens.some(tok => t.includes(tok))) {
+        return `Product: ${p.name}\nPrice: ${p.price}\nDetails: ${p.details || ""}`;
       }
     }
-
-    // 6) FAQs matching (short-circuit)
     for (const f of faqs || []) {
-      const qNorm = normalize(f.q);
-      const qWords = qNorm.split(/\s+/).slice(0, 6);
-      if (qWords.length === 0) continue;
-      if (qWords.every((w) => t.includes(w))) return languageResponse({ en: f.a, ur: f.a }, text);
-      if (qWords.some((w) => t.includes(w))) return languageResponse({ en: f.a, ur: f.a }, text);
+      const q = String(f.q || "").toLowerCase();
+      const words = q.split(/\W+/).filter(Boolean).slice(0, 6);
+      if (words.length === 0) continue;
+      if (words.every(w => t.includes(w))) return `Q: ${f.q}\nA: ${f.a}`;
+      if (words.some(w => t.includes(w))) return `Q: ${f.q}\nA: ${f.a}`;
     }
-
-    // 7) contact
     if (t.includes("contact") || t.includes("whatsapp") || t.includes("number") || t.includes("phone")) {
-      return languageResponse({
-        en: `Contact: ${businessInfo.whatsapp} (WhatsApp). Owner: ${businessInfo.owner}.`,
-        ur: `Contact: ${businessInfo.whatsapp} (WhatsApp). Malik: ${businessInfo.owner}.`,
-      }, text);
+      return `Contact: ${businessInfo.whatsapp} (WhatsApp). Business owner: ${businessInfo.owner}`;
     }
-
     return null;
-  }
-
-  function formatProductResponse(p, originalText) {
-    const lang = detectLangCode(originalText);
-    const enResp = `Product: ${p.name}\nPrice: ${p.price}\nDetails: ${p.details || ""}`;
-    const urResp = `Product: ${p.name}\nPrice: ${p.price}\nDetails: ${p.details || ""}`;
-    return languageResponse({ en: enResp, ur: urResp }, originalText);
-  }
-
-  function languageResponse(obj, originalText) {
-    if (language === "ur") return obj.ur;
-    if (language === "en") return obj.en;
-    return detectLangCode(originalText) === "ur" ? obj.ur : obj.en;
   }
 
   function renderMarkdown(md) {
@@ -171,8 +92,23 @@ export default function ChatBot({
     const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     let text = esc(md);
     text = text.replace(/```([\s\S]*?)```/g, (m, p1) => `<pre style="white-space:pre-wrap;padding:8px;border-radius:6px;background:#0b1220;"><code>${p1}</code></pre>`);
+    text = text.replace(/^### (.*$)/gim, "<h3 style=\"margin:6px 0;font-weight:600\">$1</h3>");
+    text = text.replace(/^## (.*$)/gim, "<h2 style=\"margin:6px 0;font-weight:600\">$1</h2>");
+    text = text.replace(/^# (.*$)/gim, "<h1 style=\"margin:6px 0;font-weight:700\">$1</h1>");
+    text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    text = text.replace(/\*(.*?)\*/g, "<em>$1</em>");
     text = text.replace(/\n/g, "<br/>");
     return text;
+  }
+
+  function addMessage(role, text) {
+    const msg = { id: nextId(), role, text, ts: Date.now() };
+    setMessages(prev => [...prev, msg]);
+    return msg.id;
+  }
+
+  function removeMessageById(id) {
+    setMessages(prev => prev.filter(m => m.id !== id));
   }
 
   async function sendMessage() {
@@ -180,30 +116,12 @@ export default function ChatBot({
     if (!text || thinking) return;
     addMessage("user", `🧑 ${text}`);
     setInput("");
-
-    // first try local lookup
     const local = findLocalAnswer(text);
     if (local) {
       const id = addMessage("bot", `🤖 ${local}`);
       if (autoSpeak) speakText(local);
       return;
     }
-
-    // check phone-number lookup pattern (basic)
-    const phoneMatch = (text.match(/(\+?\d{7,15})/) || [])[0];
-    if (phoneMatch) {
-      const msg = languageResponse({ en: `Looking up number ${phoneMatch}...`, ur: `Number ${phoneMatch} ka lookup kar raha hoon...` }, text);
-      addMessage("bot", msg);
-      // Note: you can integrate server-side lookup here (proxy). Placeholder reply:
-      const dummy = languageResponse({
-        en: `Number ${phoneMatch}: Operator: Unknown (server lookup not configured). Contact support via WhatsApp ${businessInfo.whatsapp}.`,
-        ur: `Number ${phoneMatch}: Operator: Maloom nahi (server lookup configured nahi). Support se WhatsApp par rabta karein: ${businessInfo.whatsapp}.`
-      }, text);
-      addMessage("bot", `🤖 ${dummy}`);
-      if (autoSpeak) speakText(dummy);
-      return;
-    }
-
     setThinking(true);
     const placeholderId = addMessage("bot", language === "ur" ? "🤖 سوچ رہا ہوں..." : "🤖 Thinking...");
     try {
@@ -259,7 +177,7 @@ export default function ChatBot({
       setListening(false);
     } else {
       try {
-        recog.lang = "en-US";
+        recog.lang = "auto";
         recog.start();
         setListening(true);
       } catch (e) {
@@ -272,12 +190,11 @@ export default function ChatBot({
     <>
       <div className="fixed right-4 bottom-6 z-[999999]">
         <button
-          onClick={() => setOpen((o) => !o)}
+          onClick={() => setOpen(o => !o)}
           className="w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transform-gpu transition-transform hover:scale-105"
           style={{
             background: "linear-gradient(135deg,#7c3aed,#a78bfa)",
             boxShadow: "0 12px 40px rgba(124,58,237,0.32), inset 0 -6px 20px rgba(167,139,250,0.12)",
-            border: "2px solid rgba(167,139,250,0.18)",
           }}
           aria-label="Open TechChatBot"
         >
@@ -300,7 +217,7 @@ export default function ChatBot({
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1 text-xs">
                 <label className="text-white/70">AutoSpeak</label>
-                <input type="checkbox" checked={autoSpeak} onChange={() => setAutoSpeak((v) => !v)} className="w-4 h-4 rounded bg-white/10" />
+                <input type="checkbox" checked={autoSpeak} onChange={() => setAutoSpeak(v => !v)} className="w-4 h-4 rounded bg-white/10" />
               </div>
               <button onClick={() => setMessages([])} className="text-xs px-2 py-1 rounded bg-white/8">Clear</button>
               <button onClick={() => setOpen(false)} className="text-xs px-2 py-1 rounded bg-white/8">Close</button>
@@ -310,7 +227,7 @@ export default function ChatBot({
           <div ref={boxRef} className="max-h-[46vh] sm:max-h-72 overflow-auto rounded-lg p-2" style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.06), rgba(255,255,255,0.02))" }}>
             {messages.length === 0 && <div className="text-sm text-white/70">{language === "ur" ? "Poochho kuch — main TECH.AI services me madad karunga." : "Ask anything about TECH.AI services."}</div>}
 
-            {messages.map((m) => (
+            {messages.map(m => (
               <div key={m.id} className={`my-2 ${m.role === "user" ? "ml-auto text-right" : ""}`}>
                 <div className={`inline-block p-3 rounded-lg ${m.role === "user" ? "bg-white/90 text-black" : "bg-gradient-to-r from-purple-700/30 to-purple-500/20 text-white"}`} style={{ maxWidth: "85%" }}>
                   <div dangerouslySetInnerHTML={{ __html: renderMarkdown(m.text) }} />
@@ -329,7 +246,7 @@ export default function ChatBot({
             <div className="flex gap-2 items-center">
               <textarea
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKey}
                 rows={2}
                 placeholder={language === "ur" ? "Apna message type karen..." : "Type your message..."}
@@ -354,4 +271,4 @@ export default function ChatBot({
       </div>
     </>
   );
-}
+}  
