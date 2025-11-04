@@ -4,8 +4,8 @@
 const businessInfo = {
   businessName: "TECH.AI",
   owner: "Muhammad Saqib",
-  whatsapp: "03478936242",
-  email: "contact@tech.ai",
+  whatsapp: "3478936242",
+  email: "tech.ai.officaili",
   instagram: "@tech.ai_official",
   telegram: "t.me/tech_ai_official",
   contactMethods: ["WhatsApp", "JazzCash", "EasyPaisa", "Bank Transfer", "Crypto"],
@@ -160,3 +160,4 @@ export {
   faqs,
   customerReviews
 };
+
