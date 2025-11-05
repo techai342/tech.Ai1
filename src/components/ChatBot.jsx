@@ -86,14 +86,20 @@ export default function ChatBot({
         return `Product: ${p.name}\nPrice: ${p.price}\nDetails: ${p.details || ""}`;
       }
     }
-
-    // Free Fire Accounts
-    for (const a of freeFireAccounts || []) {
-      const tokens = clean(a.name);
-      if (tokens.length > 0 && tokens.some(tok => t.includes(tok))) {
-        return `Free Fire Account: ${a.name}\nPrice: ${a.price}\nStars: ${a.stars}\nLogin: ${a.login}\nRegion: ${a.region}\nDetails: ${a.details}`;
-      }
+     // Check Free Fire / TikTok / other accounts
+     for (const a of [...freeFireAccounts, ...tiktokAccounts] || []) {
+      const tokens = a.name.toLowerCase().split(/\s+/);
+      if (tokens.some(tok => t.includes(tok))) {
+       // ✅ UK price detection
+        if (t.includes("uk")) {
+         return `Account: ${a.name}\nPrice (UK): ${a.priceUK}\nFollowers/Stars: ${a.followers || a.stars}\nRegion: ${a.region}\nDetails: ${a.details}`;
+       } else {
+         return `Account: ${a.name}\nPrice: ${a.price}\nFollowers/Stars: ${a.followers || a.stars}\nRegion: ${a.region}\nDetails: ${a.details}`;
     }
+  }
+}
+
+    
 
     // FAQs
     const techKeywords = ["tech.ai","account","service","buy","price","order","payment"];
