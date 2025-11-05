@@ -104,9 +104,9 @@ const faqs = [
 
 export {
   businessInfo,
-  services,
   products,
   freeFireAccounts,
+  tiktokAccounts,  // <-- ensure this line exists
   faqs
 };
 
