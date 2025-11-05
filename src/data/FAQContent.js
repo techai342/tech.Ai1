@@ -30,20 +30,20 @@ const services = [
   "Custom Requests & Development"
 ];
 const products = [
-  { category: "Apps", name: "Alight Motion Pro", price: "2000 PKR", details: "Advanced motion design & VFX." },
+  { category: "Apps", name: "Alight Motion Pro", price: "200 PKR", details: "Advanced motion design & VFX." },
   { category: "Apps", name: "CapCut Pro", price: "400 PKR", details: "No watermark, all premium effects." },
-  { category: "Apps", name: "Netflix Screen", price: "2000 PKR", details: "Premium screen features, one-time unlock." },
-  { category: "Apps", name: "InShot Pro", price: "2000 PKR", details: "All premium editing features unlocked." },
-  { category: "Apps", name: "Remini Pro", price: "2000 PKR", details: "HD photo enhancement subscription unlock." },
-  { category: "Apps", name: "Best Video Downloader", price: "2000 PKR", details: "High-quality video downloads from multiple platforms." },
-  { category: "Apps", name: "PicsArt Pro", price: "2000 PKR", details: "Premium filters & assets." },
-  { category: "Apps", name: "Telegram Pro", price: "2000 PKR", details: "Enhanced messaging features with privacy options." },
-  { category: "Apps", name: "WhatsApp Gold", price: "2000 PKR", details: "Extra features and customizations for WhatsApp." },
-  { category: "Apps", name: "PhotoRoom Pro", price: "2000 PKR", details: "Professional background removal and photo editing." },
-  { category: "Apps", name: "Spotify Pro", price: "2000 PKR", details: "Premium music streaming features unlocked." },
-  { category: "Apps", name: "YouTube Music Pro", price: "2000 PKR", details: "Ad-free music playback and downloads." },
-  { category: "Apps", name: "Photo Lab Pro", price: "2000 PKR", details: "Creative photo effects and filters." },
-  { category: "Apps", name: "Movie Box Pro", price: "2000 PKR", details: "Access to premium movies and series." }
+  { category: "Apps", name: "Netflix Screen", price: "200 PKR", details: "Premium screen features, one-time unlock." },
+  { category: "Apps", name: "InShot Pro", price: "200 PKR", details: "All premium editing features unlocked." },
+  { category: "Apps", name: "Remini Pro", price: "200 PKR", details: "HD photo enhancement subscription unlock." },
+  { category: "Apps", name: "Best Video Downloader", price: "200 PKR", details: "High-quality video downloads from multiple platforms." },
+  { category: "Apps", name: "PicsArt Pro", price: "200 PKR", details: "Premium filters & assets." },
+  { category: "Apps", name: "Telegram Pro", price: "200 PKR", details: "Enhanced messaging features with privacy options." },
+  { category: "Apps", name: "WhatsApp Gold", price: "200 PKR", details: "Extra features and customizations for WhatsApp." },
+  { category: "Apps", name: "PhotoRoom Pro", price: "200 PKR", details: "Professional background removal and photo editing." },
+  { category: "Apps", name: "Spotify Pro", price: "200 PKR", details: "Premium music streaming features unlocked." },
+  { category: "Apps", name: "YouTube Music Pro", price: "200 PKR", details: "Ad-free music playback and downloads." },
+  { category: "Apps", name: "Photo Lab Pro", price: "200 PKR", details: "Creative photo effects and filters." },
+  { category: "Apps", name: "Movie Box Pro", price: "200 PKR", details: "Access to premium movies and series." }
 ];
 
 const tiktokAccounts = [
@@ -51,7 +51,7 @@ const tiktokAccounts = [
     name: "UK TikTok Account",
     price: "1200 PKR",   // Pakistan user price
     priceUK: "£6",       // UK user price
-    followers: 5000,
+    followers: 0,        // Followers 0
     region: "UK",
     details: "Verified UK TikTok account, fast delivery."
   },
@@ -59,7 +59,7 @@ const tiktokAccounts = [
     name: "US TikTok Account",
     price: "1500 PKR",
     priceUK: "£7",
-    followers: 7000,
+    followers: 0,        // Followers 0
     region: "US",
     details: "Verified US TikTok account, fast delivery."
   }
@@ -109,4 +109,5 @@ export {
   tiktokAccounts,  // <-- ensure this line exists
   faqs
 };
+
 
