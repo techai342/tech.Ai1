@@ -46,6 +46,24 @@ const products = [
   { category: "Apps", name: "Movie Box Pro", price: "2000 PKR", details: "Access to premium movies and series." }
 ];
 
+const tiktokAccounts = [
+  {
+    name: "UK TikTok Account",
+    price: "1200 PKR",   // Pakistan user price
+    priceUK: "£6",       // UK user price
+    followers: 5000,
+    region: "UK",
+    details: "Verified UK TikTok account, fast delivery."
+  },
+  {
+    name: "US TikTok Account",
+    price: "1500 PKR",
+    priceUK: "£7",
+    followers: 7000,
+    region: "US",
+    details: "Verified US TikTok account, fast delivery."
+  }
+];
 
 // ✅ Free Fire accounts
 const freeFireAccounts = [
@@ -91,3 +109,4 @@ export {
   freeFireAccounts,
   faqs
 };
+
