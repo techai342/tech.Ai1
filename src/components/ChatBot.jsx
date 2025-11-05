@@ -52,15 +52,30 @@ export default function ChatBot({ apiUrl = "https://corsproxy.io/?https://api.ne
     if (["hi","hello","hey","salam"].some(g => t === g || t.startsWith(g))) return "Hello! How can I assist you today?";
     const ignoreWords = ["what","how","do","you","is","the","a","an","of","are","services","service"];
     const clean = sentence => String(sentence||"").toLowerCase().split(/\W+/).filter(w => w && !ignoreWords.includes(w));
+for (const p of products) {
+  const tokens = clean(p.name);
+  if (tokens.some(tok => t.includes(tok))) {
+    return `Product: ${p.name}
+Price (PKR): ${p.price}
+Price (UK): ${p.priceUK || "N/A"}
+Details: ${p.details || ""}`;
+  }
+}
 
-    for(const p of products){ const tokens = clean(p.name); if(tokens.some(tok => t.includes(tok))) return `Product: ${p.name}\nPrice: ${p.price}\nDetails: ${p.details || ""}`; }
-    for(const a of [...freeFireAccounts,...tiktokAccounts]){
-      const tokens = a.name.toLowerCase().split(/\s+/);
-      if(tokens.some(tok => t.includes(tok))){
-        if(t.includes("uk") && a.priceUK) return `Account: ${a.name}\nPrice (UK): ${a.priceUK}\nFollowers/Stars: ${a.followers||a.stars}\nRegion: ${a.region}\nDetails: ${a.details}`;
-        return `Account: ${a.name}\nPrice: ${a.price}\nFollowers/Stars: ${a.followers||a.stars}\nRegion: ${a.region}\nDetails: ${a.details}`;
-      }
-    }
+for (const a of [...freeFireAccounts, ...tiktokAccounts]) {
+  const tokens = a.name.toLowerCase().split(/\s+/);
+  if (tokens.some(tok => t.includes(tok))) {
+    const followersToShow = a.followers ?? a.stars ?? 0;
+
+    return `Account: ${a.name}
+Price (PKR): ${a.price}
+Price (UK): ${a.priceUK || "N/A"}
+Followers/Stars: ${followersToShow}
+Region: ${a.region}
+Details: ${a.details}`;
+  }
+}
+
 
     const techKeywords = ["tech.ai","account","service","buy","price","order","payment"];
     if(techKeywords.some(k => t.includes(k))) for(const f of faqs){ const words = clean(f.q); if(words.filter(w => t.includes(w)).length >=2) return `Q: ${f.q}\nA: ${f.a}`; }
