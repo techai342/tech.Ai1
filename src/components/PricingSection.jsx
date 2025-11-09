@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaCheck, FaRocket, FaTools, FaGamepad, FaHeadset, FaShoppingCart, FaCreditCard, FaCrown, FaShield, FaBullseye, FaPhone, FaPalette, FaEdit } from "react-icons/fa";
 
 const plans = [
   {
@@ -38,6 +38,237 @@ export default function PricingSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-transparent blur-3xl pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto relative z-10 px-4">
+        {/* 🎯 NEW: Join TECH.AI Today Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-20 flex flex-col lg:flex-row items-center gap-10 bg-gradient-to-br from-purple-900/30 via-blue-900/20 to-pink-900/30 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-2xl"
+        >
+          {/* Image Side */}
+          <div className="lg:w-1/2 flex justify-center">
+            <motion.img
+              src="https://i.ibb.co/1fbRMbTx/unnamed.jpg"
+              alt="Join TECH.AI Today"
+              className="w-full max-w-md rounded-2xl shadow-2xl"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+          
+          {/* Content Side */}
+          <div className="lg:w-1/2 space-y-6">
+            <motion.h2
+              className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              Join TECH.AI Today 🚀
+            </motion.h2>
+            
+            <motion.p
+              className="text-lg text-white/90 leading-relaxed"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              Your complete digital toolkit awaits. Premium apps, proven growth strategies, and expert support—all designed to help you succeed in the digital world.
+            </motion.p>
+
+            {/* What You Get Section */}
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <h3 className="text-2xl font-semibold text-cyan-300 flex items-center gap-2">
+                <FaCheck className="text-green-400" />
+                What You Get
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaTools className="text-purple-400" />
+                  <span>20+ premium apps & services</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaRocket className="text-blue-400" />
+                  <span>Exclusive pro mods</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaGamepad className="text-green-400" />
+                  <span>Gaming enhancements</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaTools className="text-cyan-400" />
+                  <span>AI productivity tools</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaHeadset className="text-yellow-400" />
+                  <span>Expert support & guidance</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Getting Started Section */}
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              <h3 className="text-2xl font-semibold text-green-300 flex items-center gap-2">
+                <FaRocket className="text-orange-400" />
+                Getting Started
+              </h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaShoppingCart className="text-blue-400" />
+                  <span>Browse our service catalog</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaTools className="text-purple-400" />
+                  <span>Choose your tools & upgrades</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/80">
+                  <FaCreditCard className="text-green-400" />
+                  <span>Select your payment</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Recommended Highlight */}
+            <motion.div
+              className="bg-gradient-to-r from-yellow-400/20 to-orange-500/20 border border-yellow-400/30 rounded-xl p-4 mt-6"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              <div className="flex items-center gap-2 text-yellow-300 font-bold text-lg">
+                ⭐ Our Recommended Choice
+              </div>
+              <p className="text-white/90 mt-2">
+                Start with our most popular packages for the best value and immediate results!
+              </p>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* 🎮 NEW: Gaming & Productivity Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-20 flex flex-col lg:flex-row items-center gap-10 bg-gradient-to-br from-green-900/20 via-blue-900/20 to-purple-900/20 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-2xl"
+        >
+          {/* Image Side */}
+          <div className="lg:w-1/2 flex justify-center">
+            <motion.img
+              src="https://i.ibb.co/MkPGv41D/Yywwb1-It-Jxnrw-Mw-Ub3ob-F-1.jpg"
+              alt="Gaming & Productivity"
+              className="w-full max-w-md rounded-2xl shadow-2xl"
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+          
+          {/* Content Side */}
+          <div className="lg:w-1/2 space-y-6">
+            <motion.h2
+              className="text-4xl font-bold bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              🎮 Gaming & Productivity
+            </motion.h2>
+
+            {/* Gaming Enhancements */}
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <h3 className="text-2xl font-semibold text-green-300 flex items-center gap-2">
+                <FaGamepad className="text-green-400" />
+                Gaming Enhancements
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 text-white/80">
+                  <FaCrown className="text-yellow-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong>Free Fire Panel:</strong> Premium features and extra security for competitive edge
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-white/80">
+                  <FaShield className="text-blue-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong>PUBG Login Tools:</strong> Enhanced gameplay mechanics and optimization settings
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-white/80">
+                  <FaBullseye className="text-red-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong>Sensitivity Settings:</strong> Precision tuning for pro-level performance
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Productivity Tools */}
+            <motion.div
+              className="space-y-4"
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <h3 className="text-2xl font-semibold text-blue-300 flex items-center gap-2">
+                <FaRocket className="text-blue-400" />
+                Productivity Tools
+              </h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 text-white/80">
+                  <FaPhone className="text-cyan-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong>Virtual Numbers:</strong> Free, secure communication without exposing your real number
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-white/80">
+                  <FaPalette className="text-purple-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong>AI Platforms:</strong> Top-tier tools for writing, design, and content creation
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 text-white/80">
+                  <FaEdit className="text-pink-400 mt-1 flex-shrink-0" />
+                  <div>
+                    <strong>Editing Suite:</strong> Professional-grade photo and video tools at accessible prices
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Call to Action */}
+            <motion.div
+              className="bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-400/30 rounded-xl p-4 mt-6"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <div className="flex items-center gap-2 text-green-300 font-bold text-lg">
+                🚀 Level Up Your Digital Experience
+              </div>
+              <p className="text-white/90 mt-2">
+                Combine gaming excellence with productivity power - get the best of both worlds with TECH.AI!
+              </p>
+            </motion.div>
+          </div>
+        </motion.div>
+
         {/* 🧠 Section Title */}
         <motion.h2
           className="text-4xl sm:text-5xl font-extrabold mb-14 bg-gradient-to-r from-cyan-400 via-pink-500 to-purple-500 bg-clip-text text-transparent text-center"
@@ -177,7 +408,7 @@ export default function PricingSection() {
             />
             <div className="md:w-1/2 space-y-4 text-white/85">
               <h3 className="text-3xl font-bold text-purple-400">
-                🌟 Get Access to Premium Apps with Tech.AI’s Pro Mods
+                🌟 Get Access to Premium Apps with Tech.AI's Pro Mods
               </h3>
               <p className="leading-relaxed">
                 Looking to unlock premium features without spending extra money?{" "}
@@ -200,7 +431,7 @@ export default function PricingSection() {
 
               <div className="space-y-2">
                 <h4 className="font-semibold text-lg text-purple-300">
-                  ✨ Why Choose Tech.AI’s Pro Mods?
+                  ✨ Why Choose Tech.AI's Pro Mods?
                 </h4>
                 <ul className="list-disc list-inside text-white/80">
                   <li>🔹 Unlock premium features for free</li>
@@ -209,7 +440,7 @@ export default function PricingSection() {
                   <li>🔹 Perfect for tech lovers worldwide</li>
                 </ul>
               </div>
-               </div>
+            </div>
           </motion.div>
         </div>
       </div>
