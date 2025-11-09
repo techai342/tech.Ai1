@@ -1,5 +1,20 @@
 import { motion } from "framer-motion";
-import { FaWhatsapp, FaCheck, FaRocket, FaTools, FaGamepad, FaHeadset, FaShoppingCart, FaCreditCard, FaCrown, FaShield, FaBullseye, FaPhone, FaPalette, FaEdit } from "react-icons/fa";
+import { 
+  FaWhatsapp, 
+  FaCheck, 
+  FaRocket, 
+  FaTools, 
+  FaGamepad, 
+  FaHeadset, 
+  FaShoppingCart, 
+  FaCreditCard, 
+  FaCrown, 
+  FaShieldAlt, 
+  FaBullseye, 
+  FaPhone, 
+  FaPalette, 
+  FaEdit 
+} from "react-icons/fa";
 
 const plans = [
   {
@@ -205,7 +220,7 @@ export default function PricingSection() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 text-white/80">
-                  <FaShield className="text-blue-400 mt-1 flex-shrink-0" />
+                  <FaShieldAlt className="text-blue-400 mt-1 flex-shrink-0" />
                   <div>
                     <strong>PUBG Login Tools:</strong> Enhanced gameplay mechanics and optimization settings
                   </div>
