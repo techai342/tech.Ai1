@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { businessInfo, products, faqs, freeFireAccounts, tiktokAccounts } from "../data/FAQContent";
 
-export default function ChatBot({ apiUrl = "https://corsproxy.io/?https://api.nekolabs.web.id/ai/cf/gpt-oss-120b?text=", language = "auto" }) {
+export default function ChatBot({ language = "auto" }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -52,30 +52,30 @@ export default function ChatBot({ apiUrl = "https://corsproxy.io/?https://api.ne
     if (["hi","hello","hey","salam"].some(g => t === g || t.startsWith(g))) return "Hello! How can I assist you today?";
     const ignoreWords = ["what","how","do","you","is","the","a","an","of","are","services","service"];
     const clean = sentence => String(sentence||"").toLowerCase().split(/\W+/).filter(w => w && !ignoreWords.includes(w));
-for (const p of products) {
-  const tokens = clean(p.name);
-  if (tokens.some(tok => t.includes(tok))) {
-    return `Product: ${p.name}
+    
+    for (const p of products) {
+      const tokens = clean(p.name);
+      if (tokens.some(tok => t.includes(tok))) {
+        return `Product: ${p.name}
 Price (PKR): ${p.price}
 Price (UK): ${p.priceUK || "N/A"}
 Details: ${p.details || ""}`;
-  }
-}
+      }
+    }
 
-for (const a of [...freeFireAccounts, ...tiktokAccounts]) {
-  const tokens = a.name.toLowerCase().split(/\s+/);
-  if (tokens.some(tok => t.includes(tok))) {
-    const followersToShow = a.followers ?? a.stars ?? 0;
+    for (const a of [...freeFireAccounts, ...tiktokAccounts]) {
+      const tokens = a.name.toLowerCase().split(/\s+/);
+      if (tokens.some(tok => t.includes(tok))) {
+        const followersToShow = a.followers ?? a.stars ?? 0;
 
-    return `Account: ${a.name}
+        return `Account: ${a.name}
 Price (PKR): ${a.price}
 Price (UK): ${a.priceUK || "N/A"}
 Followers/Stars: ${followersToShow}
 Region: ${a.region}
 Details: ${a.details}`;
-  }
-}
-
+      }
+    }
 
     const techKeywords = ["tech.ai","account","service","buy","price","order","payment"];
     if(techKeywords.some(k => t.includes(k))) for(const f of faqs){ const words = clean(f.q); if(words.filter(w => t.includes(w)).length >=2) return `Q: ${f.q}\nA: ${f.a}`; }
@@ -92,15 +92,31 @@ Details: ${a.details}`;
     if(local){ addMessage("bot",`🤖 ${local}`); if(autoSpeak)speakText(local); return; }
     setThinking(true);
     const placeholderId = addMessage("bot",language==="ur"?"🤖 سوچ رہا ہوں...":"🤖 Thinking...");
-    try{
-      let requestUrl = String(apiUrl||""); let data;
-      if(requestUrl.includes("?") && requestUrl.endsWith("=")){ requestUrl = requestUrl+encodeURIComponent(text); const res = await fetch(requestUrl); if(!res.ok) throw new Error(`API error ${res.status}`); data = await res.json(); }
-      else{ const res = await fetch(requestUrl,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text})}); if(!res.ok) throw new Error(`API error ${res.status}`); data = await res.json(); }
+    
+    try {
+      const url = `https://corsproxy.io/?https://api.nekolabs.web.id/ai/ai4chat?text=${encodeURIComponent(text)}`;
+      const response = await fetch(url, { method: "GET" });
+
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status}`);
+      }
+      
+      const json = await response.json();
+      const botReply = json?.result || "Sorry, I couldn't generate a response.";
+      
       removeMessageById(placeholderId);
-      let reply = typeof data === "string"?data:(data?.result?.response||JSON.stringify(data));
-      addMessage("bot",`🤖 ${reply}`); if(autoSpeak)speakText(reply);
-    }catch(err){ removeMessageById(placeholderId); addMessage("bot",`⚠️ Error: ${err.message}`); if(autoSpeak)speakText(`Error: ${err.message}`); }
-    finally{ setThinking(false); }
+      addMessage("bot",`🤖 ${botReply}`); 
+      if(autoSpeak) speakText(botReply);
+      
+    } catch (err) {
+      console.error("Chat API error", err);
+      removeMessageById(placeholderId);
+      const errorMessage = "⚠️ API Error: please try again later.";
+      addMessage("bot", errorMessage);
+      if(autoSpeak) speakText(errorMessage);
+    } finally {
+      setThinking(false);
+    }
   }
 
   function handleKey(e){ if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); sendMessage(); } }
