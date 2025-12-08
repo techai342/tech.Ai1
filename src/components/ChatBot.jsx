@@ -94,7 +94,8 @@ Details: ${a.details}`;
     const placeholderId = addMessage("bot",language==="ur"?"🤖 سوچ رہا ہوں...":"🤖 Thinking...");
     
     try {
-      const url = `https://corsproxy.io/?https://api.nekolabs.web.id/ai/ai4chat?text=${encodeURIComponent(text)}`;
+      // UPDATED API ENDPOINT - Using the new working API
+      const url = `https://api.nekolabs.web.id/text-generation/ai4chat?text=${encodeURIComponent(text)}`;
       const response = await fetch(url, { method: "GET" });
 
       if (!response.ok) {
@@ -102,7 +103,8 @@ Details: ${a.details}`;
       }
       
       const json = await response.json();
-      const botReply = json?.result || "Sorry, I couldn't generate a response.";
+      // Extract response from the new API structure
+      const botReply = json?.result || json?.response || "Sorry, I couldn't generate a response.";
       
       removeMessageById(placeholderId);
       addMessage("bot",`🤖 ${botReply}`); 
