@@ -94,7 +94,7 @@ Details: ${a.details}`;
     const placeholderId = addMessage("bot",language==="ur"?"🤖 سوچ رہا ہوں...":"🤖 Thinking...");
     
     try {
-      const url = `https://api.nekolabs.web.id/text-generation/ai4chat?text=${encodeURIComponent(text)}`;
+      const url = `https://corsproxy.io/?"https://api.nekolabs.web.id/text-generation/ai4chat?text=${encodeURIComponent(text)}`;
       const response = await fetch(url, { method: "GET" });
 
       if (!response.ok) {
