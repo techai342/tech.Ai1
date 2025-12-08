@@ -94,15 +94,80 @@ Details: ${a.details}`;
     const placeholderId = addMessage("bot",language==="ur"?"🤖 سوچ رہا ہوں...":"🤖 Thinking...");
     
     try {
-      const url = `https://corsproxy.io/?"https://api.nekolabs.web.id/text-generation/ai4chat?text=${encodeURIComponent(text)}`;
-      const response = await fetch(url, { method: "GET" });
+      // Try different API endpoints with CORS proxy if needed
+      const apiUrl = `https://api.nekolabs.web.id/text-generation/cf/gpt-oss-20b?text=${encodeURIComponent(text)}`;
+      const corsProxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
+      
+      console.log("Calling API:", apiUrl);
+      
+      // Try direct API first, if fails try with CORS proxy
+      let response;
+      try {
+        response = await fetch(apiUrl, { 
+          method: "GET",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          mode: 'cors'
+        });
+      } catch (directError) {
+        console.log("Direct API failed, trying with CORS proxy:", directError);
+        response = await fetch(corsProxyUrl, { 
+          method: "GET",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+        });
+      }
 
       if (!response.ok) {
-        throw new Error(`API returned ${response.status}`);
+        throw new Error(`API returned ${response.status}: ${response.statusText}`);
       }
       
-      const json = await response.json();
-      const botReply = json?.result || "Sorry, I couldn't generate a response.";
+      const responseText = await response.text();
+      console.log("API Response:", responseText);
+      
+      let json;
+      try {
+        json = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("JSON parse error:", parseError);
+        throw new Error("Invalid JSON response from API");
+      }
+      
+      // Extract response from different possible structures
+      let botReply = "Sorry, I couldn't generate a response.";
+      
+      if (json?.result?.response) {
+        botReply = json.result.response;
+      } else if (json?.result) {
+        // Check if result is string or object
+        if (typeof json.result === 'string') {
+          botReply = json.result;
+        } else if (json.result?.text) {
+          botReply = json.result.text;
+        } else if (json.result?.message) {
+          botReply = json.result.message;
+        }
+      } else if (json?.response) {
+        botReply = json.response;
+      } else if (json?.text) {
+        botReply = json.text;
+      } else if (json?.message) {
+        botReply = json.message;
+      } else if (json?.choices?.[0]?.text) {
+        botReply = json.choices[0].text;
+      } else if (json?.choices?.[0]?.message?.content) {
+        botReply = json.choices[0].message.content;
+      }
+      
+      // Clean up the response
+      botReply = String(botReply).trim();
+      if (botReply.length === 0) {
+        botReply = "I received an empty response. Please try again.";
+      }
       
       removeMessageById(placeholderId);
       addMessage("bot",`🤖 ${botReply}`); 
@@ -111,7 +176,15 @@ Details: ${a.details}`;
     } catch (err) {
       console.error("Chat API error", err);
       removeMessageById(placeholderId);
-      const errorMessage = "⚠️ API Error: please try again later.";
+      
+      // Provide more specific error message
+      let errorMessage = "⚠️ API Error: please try again later.";
+      if (err.message.includes("Failed to fetch") || err.message.includes("NetworkError")) {
+        errorMessage = "⚠️ Network error. Please check your internet connection.";
+      } else if (err.message.includes("CORS")) {
+        errorMessage = "⚠️ CORS error. Please contact support.";
+      }
+      
       addMessage("bot", errorMessage);
       if(autoSpeak) speakText(errorMessage);
     } finally {
