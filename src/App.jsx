@@ -15,6 +15,7 @@ import About from "./components/About";
 import TeamSection from "./components/TeamSection";
 import CustomerReviews from "./components/CustomerReviews";
 import FAQSection from "./components/FAQSection";
+import OfficialWebsiteSection from "./components/OfficialWebsiteSection";
 
 import AccountsPage from "./accounts/AccountsPage";
 import FreeFirePage from "./pages/FreeFirePage";
@@ -105,6 +106,15 @@ function Layout() {
                 transition={{ duration: 1 }}
               >
                 <PricingSection />
+              </motion.section>
+
+              <motion.section
+                id="official"
+                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40 }}
+                transition={{ duration: 1 }}
+              >
+                <OfficialWebsiteSection />
               </motion.section>
 
               <motion.section

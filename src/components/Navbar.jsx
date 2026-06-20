@@ -9,6 +9,7 @@ export default function Navbar() {
     { name: "Home", link: "#home" },
     { name: "Features", link: "#features" },
     { name: "Pricing", link: "#pricing" },  // 🆕 ✅ Pricing Section Added
+    { name: "Official", link: "#official" },
     { name: "About", link: "#about" },
     { name: "Team", link: "#team" },
     { name: "Reviews", link: "#reviews" },
