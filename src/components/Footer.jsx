@@ -5,7 +5,7 @@ export default function Footer() {
   const socialLinks = [
     { name: "Facebook", icon: <FaFacebookF />, color: "#1877F2", url: "https://www.facebook.com/share/1BynfYvhog/" },
     { name: "Instagram", icon: <FaInstagram />, color: "#E4405F", url: "https://www.instagram.com/mr_saqib242" },
-    { name: "WhatsApp", icon: <FaWhatsapp />, color: "#25D366", url: "https://whatsapp.com/channel/0029Vb6bvtX3wtb21mil503V" },
+    { name: "WhatsApp", icon: <FaWhatsapp />, color: "#25D366", url: "https://www.whatsapp.com/channel/0029VbBTSK1EquiWrUt5uV1I" },
     { name: "TikTok", icon: <FaTiktok />, color: "#010101", url: "https://www.tiktok.com/@mr_saqib_242?_t=ZS-90SImXww7He&_r=1" },
   ];
 

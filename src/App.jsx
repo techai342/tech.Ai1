@@ -34,7 +34,7 @@ function Layout() {
   const [showOfficialSitePopup, setShowOfficialSitePopup] = useState(true);
 
   const visitOfficialSite = () => {
-    window.open("https://www.google.com/search?q=saqib242", "_blank", "noopener,noreferrer");
+    window.open("https://www.whatsapp.com/channel/0029VbBTSK1EquiWrUt5uV1I", "_blank", "noopener,noreferrer");
     setShowOfficialSitePopup(false);
   };
 
@@ -51,16 +51,16 @@ function Layout() {
       {showOfficialSitePopup && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
           <div className="max-w-md rounded-3xl border border-white/20 bg-slate-950/95 p-6 text-center shadow-2xl shadow-cyan-500/20">
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Official Link</p>
-            <h2 className="mt-3 text-3xl font-extrabold text-white">Visit Mr Saqi Official Site</h2>
-            <p className="mt-3 text-sm text-slate-300">Click below to search for Saqib242 on Google.</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Official Channel</p>
+            <h2 className="mt-3 text-3xl font-extrabold text-white">Join Our Official Channel</h2>
+            <p className="mt-3 text-sm text-slate-300">Click below to open and follow our official WhatsApp channel.</p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
               <button
                 type="button"
                 onClick={visitOfficialSite}
                 className="rounded-full bg-cyan-400 px-6 py-3 font-bold text-slate-950 transition hover:bg-cyan-300"
               >
-                Visit Now
+                Open Channel
               </button>
               <button
                 type="button"
