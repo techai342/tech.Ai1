@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
@@ -30,6 +31,12 @@ const toolPages = Object.entries(toolModules).map(([path, mod]) => {
 function Layout() {
   const location = useLocation();
   const isFreeFirePage = location.pathname === "/freefire";
+  const [showOfficialSitePopup, setShowOfficialSitePopup] = useState(true);
+
+  const visitOfficialSite = () => {
+    window.open("https://www.google.com/search?q=saqib242", "_blank", "noopener,noreferrer");
+    setShowOfficialSitePopup(false);
+  };
 
   return (
     <div className="min-h-screen overflow-x-hidden relative font-[Poppins] text-white scroll-smooth">
@@ -40,6 +47,32 @@ function Layout() {
 
       {/* Navbar */}
       {isFreeFirePage ? <FreeFireNavbar /> : <Navbar />}
+
+      {showOfficialSitePopup && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+          <div className="max-w-md rounded-3xl border border-white/20 bg-slate-950/95 p-6 text-center shadow-2xl shadow-cyan-500/20">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-300">Official Link</p>
+            <h2 className="mt-3 text-3xl font-extrabold text-white">Visit Mr Saqi Official Site</h2>
+            <p className="mt-3 text-sm text-slate-300">Click below to search for Saqib242 on Google.</p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              <button
+                type="button"
+                onClick={visitOfficialSite}
+                className="rounded-full bg-cyan-400 px-6 py-3 font-bold text-slate-950 transition hover:bg-cyan-300"
+              >
+                Visit Now
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowOfficialSitePopup(false)}
+                className="rounded-full border border-white/20 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Routes>
         {/* 🏠 Home */}
